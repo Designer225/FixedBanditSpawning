@@ -115,5 +115,14 @@ namespace FixedBanditSpawning
 
             return codes.AsEnumerable();
         }
+
+        //public static void Postfix(ref Agent __result)
+        //{
+        //    BodyProperties bp = __result.BodyPropertiesValue;
+        //    if (bp.Age < 18)
+        //        Debug.Print(string.Format("[FixedBanditSpawning] Agent {0}'s body property age less than 18, is actually {1}", __result.Character.Name, bp.Age));
+        //    if (__result.Age < 18)
+        //        Debug.Print(string.Format("[FixedBanditSpawning] Agent {0}'s age less than 18, is actually {1}", __result.Character.Name, __result.Age));
+        //}
     }
 }
