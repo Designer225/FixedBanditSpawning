@@ -23,7 +23,6 @@ D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBandit
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\TaleWorlds.MountAndBlade.Helpers.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\TaleWorlds.Diamond.AccessProvider.Test.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\0Harmony.xml
-D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csprojAssemblyReference.cache
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csproj.CopyComplete
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.pdb
