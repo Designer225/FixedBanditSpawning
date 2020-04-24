@@ -121,16 +121,6 @@ namespace FixedBanditSpawning
     [HarmonyPatch(typeof(HeroCreator), "CreateNewHero")]
     public static class HeroCreator_CreateNewHero_Patch
     {
-        //public static void Prefix(CharacterObject template, int age)
-        //{
-        //    Debug.Print(string.Format("[FixedBanditSpawning] Character {0} spawning: age is {1}, override age is {2}", template.Name, template.Age, age));
-        //}
-
-        //public static void Postfix(Hero __result)
-        //{
-        //    Debug.Print(string.Format("[FixedBanditSpawning] Hero {0} is aged {1}", __result.Name, __result.Age));
-        //}
-
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             Debug.Print("[FixedBanditSpawning] Attempting to bypass 2 age checkers in HeroCreator.CreateNewHero()");
