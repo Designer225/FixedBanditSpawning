@@ -71,18 +71,50 @@ namespace FixedBanditSpawning
             Label jumpLabel = default;
             for (int i = 0; i < codes.Count; i++)
             {
-                if (stage == 0 && codes[i].opcode == OpCodes.Ldarg_0)
+                //if (stage == 0 && codes[i].opcode == OpCodes.Ldarg_0)
+                //{
+                //    stage = 1;
+                //    replaceIndex = i;
+                //}
+                //else if (stage == 1)
+                //{
+                //    if (codes[i].opcode == OpCodes.Call
+                //        && codes[i].operand is MethodInfo && codes[i].operand as MethodInfo == AccessTools.PropertyGetter(typeof(Mission), nameof(Mission.Mode)))
+                //    {
+                //        stage = 2;
+                //    }
+                //    else
+                //    {
+                //        stage = 0;
+                //        replaceIndex = -1;
+                //    }
+                //}
+                //else if (stage == 2)
+                //{
+                //    if (codes[i].opcode == OpCodes.Ldc_I4_2)
+                //    {
+                //        stage = 3;
+                //    }
+                //    else
+                //    {
+                //        stage = 0;
+                //        replaceIndex = -1;
+                //    }
+                //}
+                //else if (stage == 3 && codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label)
+                //{
+                //    jumpLabel = (Label)(codes[i].operand);
+                //    break;
+                //}
+                if (stage == 0 && codes[i].opcode == OpCodes.Ldloc_3)
                 {
                     stage = 1;
                     replaceIndex = i;
                 }
                 else if (stage == 1)
                 {
-                    if (codes[i].opcode == OpCodes.Call
-                        && codes[i].operand is MethodInfo && codes[i].operand as MethodInfo == AccessTools.PropertyGetter(typeof(Mission), nameof(Mission.Mode)))
-                    {
+                    if (codes[i].opcode == OpCodes.Conv_R4)
                         stage = 2;
-                    }
                     else
                     {
                         stage = 0;
@@ -91,20 +123,37 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 2)
                 {
-                    if (codes[i].opcode == OpCodes.Ldc_I4_2)
-                    {
+                    if (codes[i].opcode == OpCodes.Call && codes[i].operand is MethodInfo
+                        && codes[i].operand as MethodInfo == AccessTools.Method(typeof(MBBodyProperties), nameof(MBBodyProperties.GetMaturityType)))
                         stage = 3;
-                    }
                     else
                     {
                         stage = 0;
                         replaceIndex = -1;
                     }
                 }
-                else if (stage == 3 && codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label)
+                else if (stage == 3)
                 {
-                    jumpLabel = (Label)(codes[i].operand);
-                    break;
+                    if (codes[i].opcode == OpCodes.Ldc_I4_3)
+                        stage = 4;
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
+                }
+                else if (stage == 4)
+                {
+                    if (codes[i].opcode == OpCodes.Bge_S && codes[i].operand is Label)
+                    {
+                        jumpLabel = (Label)(codes[i].operand);
+                        break;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
                 }
             }
 

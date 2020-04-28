@@ -116,6 +116,7 @@ namespace FixedCompanionAgeSpawning
                 {
                     codes[i + 1] = new CodeInstruction(OpCodes.Nop);
                     codes[i + 2] = new CodeInstruction(OpCodes.Nop);
+                    codes[i + 3].operand = 32;
                     Debug.Print("[FixedBanditSpawning] Artificial age adder in UrbanCharactersCampaignBehavior.CreateCompanion() bypassed :)");
                     break;
                 }
