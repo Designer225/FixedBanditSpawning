@@ -109,23 +109,25 @@ namespace FixedBanditSpawning
                 if (stage == 0 && codes[i].opcode == OpCodes.Ldloc_3)
                 {
                     stage = 1;
-                    replaceIndex = i;
                 }
                 else if (stage == 1)
                 {
-                    if (codes[i].opcode == OpCodes.Conv_R4)
+                    if (codes[i].opcode == OpCodes.Brtrue_S && codes[i].operand is Label)
+                    {
                         stage = 2;
+                        replaceIndex = i;
+                    }
                     else
                     {
                         stage = 0;
-                        replaceIndex = -1;
                     }
                 }
                 else if (stage == 2)
                 {
-                    if (codes[i].opcode == OpCodes.Call && codes[i].operand is MethodInfo
-                        && codes[i].operand as MethodInfo == AccessTools.Method(typeof(MBBodyProperties), nameof(MBBodyProperties.GetMaturityType)))
+                    if (codes[i].opcode == OpCodes.Ldarg_1)
+                    {
                         stage = 3;
+                    }
                     else
                     {
                         stage = 0;
@@ -134,8 +136,10 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 3)
                 {
-                    if (codes[i].opcode == OpCodes.Ldc_I4_3)
+                    if (codes[i].opcode == OpCodes.Ldc_I4_S)
+                    {
                         stage = 4;
+                    }
                     else
                     {
                         stage = 0;
@@ -144,7 +148,32 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 4)
                 {
-                    if (codes[i].opcode == OpCodes.Bge_S && codes[i].operand is Label)
+                    if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand is MethodInfo
+                        && codes[i].operand as MethodInfo == AccessTools.Method(typeof(AgentBuildData), nameof(AgentBuildData.Age)))
+                    {
+                        stage = 5;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
+                }
+                else if (stage == 5)
+                {
+                    if (codes[i].opcode == OpCodes.Pop)
+                    {
+                        stage = 6;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
+                }
+                else if (stage == 6)
+                {
+                    if (codes[i].opcode == OpCodes.Br_S && codes[i].operand is Label)
                     {
                         jumpLabel = (Label)(codes[i].operand);
                         break;
@@ -159,7 +188,7 @@ namespace FixedBanditSpawning
 
             if (replaceIndex != -1 && jumpLabel != default)
             {
-                codes[replaceIndex] = new CodeInstruction(OpCodes.Br, jumpLabel);
+                codes[replaceIndex].operand = jumpLabel;
                 Debug.Print("[FixedBanditSpawning] Age checker in Mission.SpawnAgent() bypassed :)");
             }
 

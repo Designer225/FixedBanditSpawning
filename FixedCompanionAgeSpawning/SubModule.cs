@@ -21,7 +21,7 @@ namespace FixedCompanionAgeSpawning
         {
             base.OnSubModuleLoad();
 
-            new Harmony("d225.fixedbanditspawning").PatchAll();
+            new Harmony("d225.fixedcompanionagespawning").PatchAll();
         }
     }
 
