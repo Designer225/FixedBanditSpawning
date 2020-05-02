@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.SandBox.CampaignBehaviors;
 using TaleWorlds.Core;
+using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using Helpers;
@@ -17,11 +18,14 @@ namespace FixedBanditSpawning
 {
     public class SubModule : MBSubModuleBase
     {
+        //internal static Dictionary<Agent, float> AgentAgeDict { get; set; } = new Dictionary<Agent, float>();
+
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
 
-            new Harmony("d225.fixedbanditspawning").PatchAll();
+            Harmony harmony = new Harmony("d225.fixedbanditspawning");
+            harmony.PatchAll();
         }
     }
 
@@ -71,41 +75,6 @@ namespace FixedBanditSpawning
             Label jumpLabel = default;
             for (int i = 0; i < codes.Count; i++)
             {
-                //if (stage == 0 && codes[i].opcode == OpCodes.Ldarg_0)
-                //{
-                //    stage = 1;
-                //    replaceIndex = i;
-                //}
-                //else if (stage == 1)
-                //{
-                //    if (codes[i].opcode == OpCodes.Call
-                //        && codes[i].operand is MethodInfo && codes[i].operand as MethodInfo == AccessTools.PropertyGetter(typeof(Mission), nameof(Mission.Mode)))
-                //    {
-                //        stage = 2;
-                //    }
-                //    else
-                //    {
-                //        stage = 0;
-                //        replaceIndex = -1;
-                //    }
-                //}
-                //else if (stage == 2)
-                //{
-                //    if (codes[i].opcode == OpCodes.Ldc_I4_2)
-                //    {
-                //        stage = 3;
-                //    }
-                //    else
-                //    {
-                //        stage = 0;
-                //        replaceIndex = -1;
-                //    }
-                //}
-                //else if (stage == 3 && codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label)
-                //{
-                //    jumpLabel = (Label)(codes[i].operand);
-                //    break;
-                //}
                 if (stage == 0 && codes[i].opcode == OpCodes.Ldloc_3)
                 {
                     stage = 1;
