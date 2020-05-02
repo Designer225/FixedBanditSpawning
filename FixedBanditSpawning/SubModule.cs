@@ -164,4 +164,49 @@ namespace FixedBanditSpawning
             return codes.AsEnumerable();
         }
     }
+
+    [HarmonyPatch(typeof(Mission), "BuildAgent")]
+    public static class Mission_BuildAgent_Patch
+    {
+        //private static Dictionary<Agent, float> _agentAgeDict;
+
+        //public static bool Prepare()
+        //{
+        //    _agentAgeDict = new Dictionary<Agent, float>();
+        //    return true;
+        //}
+
+        //public static void Prefix(ref Agent agent)
+        //{
+        //    Debug.Print(string.Format("[FixedBanditSpawning] Before some patching: agent {0} age is {1}, humanoid? {2}", agent.Name, agent.Age, agent.IsHuman));
+
+        //    if (agent.IsHuman && !agent.IsHero)
+        //    {
+        //        if (agent.Age < 17f)
+        //        {
+        //            _agentAgeDict[agent] = agent.Age;
+        //            //AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 17f });
+        //        }
+        //    }
+        //}
+
+        public static void Postfix(ref Agent agent)
+        {
+            Debug.Print(string.Format("[FixedBanditSpawning] After some patching: agent {0} age is {1}", agent.Name, agent.Age));
+            
+            if (agent.IsHuman && agent.Age < 18f)
+            {
+                float age = agent.Age;
+                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
+                //agent.AgentVisuals.SetFaceGenerationParams(new BodyGenerator(agent.Character).InitBodyGenerator());
+                SkinGenerationParams skinParams = new SkinGenerationParams((int)(SkinMask.NoneVisible), agent.SpawnEquipment.GetUnderwearType(agent.IsFemale),
+                    (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType, (int)agent.SpawnEquipment.BeardCoverType,
+                    (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, false, false);
+                agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue);
+                agent.AgentVisuals.BatchLastLodMeshes();
+                agent.PreloadForRendering();
+                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
+            }
+        }
+    }
 }
