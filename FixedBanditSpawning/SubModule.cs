@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.SandBox.CampaignBehaviors;
 using TaleWorlds.Core;
+using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using Helpers;
@@ -17,11 +18,14 @@ namespace FixedBanditSpawning
 {
     public class SubModule : MBSubModuleBase
     {
+        //internal static Dictionary<Agent, float> AgentAgeDict { get; set; } = new Dictionary<Agent, float>();
+
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
 
-            new Harmony("d225.fixedbanditspawning").PatchAll();
+            Harmony harmony = new Harmony("d225.fixedbanditspawning");
+            harmony.PatchAll();
         }
     }
 
@@ -71,27 +75,25 @@ namespace FixedBanditSpawning
             Label jumpLabel = default;
             for (int i = 0; i < codes.Count; i++)
             {
-                if (stage == 0 && codes[i].opcode == OpCodes.Ldarg_0)
+                if (stage == 0 && codes[i].opcode == OpCodes.Ldloc_3)
                 {
                     stage = 1;
-                    replaceIndex = i;
                 }
                 else if (stage == 1)
                 {
-                    if (codes[i].opcode == OpCodes.Call
-                        && codes[i].operand is MethodInfo && codes[i].operand as MethodInfo == AccessTools.PropertyGetter(typeof(Mission), nameof(Mission.Mode)))
+                    if (codes[i].opcode == OpCodes.Brtrue_S && codes[i].operand is Label)
                     {
                         stage = 2;
+                        replaceIndex = i;
                     }
                     else
                     {
                         stage = 0;
-                        replaceIndex = -1;
                     }
                 }
                 else if (stage == 2)
                 {
-                    if (codes[i].opcode == OpCodes.Ldc_I4_2)
+                    if (codes[i].opcode == OpCodes.Ldarg_1)
                     {
                         stage = 3;
                     }
@@ -101,20 +103,90 @@ namespace FixedBanditSpawning
                         replaceIndex = -1;
                     }
                 }
-                else if (stage == 3 && codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label)
+                else if (stage == 3)
                 {
-                    jumpLabel = (Label)(codes[i].operand);
-                    break;
+                    if (codes[i].opcode == OpCodes.Ldc_I4_S)
+                    {
+                        stage = 4;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
+                }
+                else if (stage == 4)
+                {
+                    if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand is MethodInfo
+                        && codes[i].operand as MethodInfo == AccessTools.Method(typeof(AgentBuildData), nameof(AgentBuildData.Age)))
+                    {
+                        stage = 5;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
+                }
+                else if (stage == 5)
+                {
+                    if (codes[i].opcode == OpCodes.Pop)
+                    {
+                        stage = 6;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
+                }
+                else if (stage == 6)
+                {
+                    if (codes[i].opcode == OpCodes.Br_S && codes[i].operand is Label)
+                    {
+                        jumpLabel = (Label)(codes[i].operand);
+                        break;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
                 }
             }
 
             if (replaceIndex != -1 && jumpLabel != default)
             {
-                codes[replaceIndex] = new CodeInstruction(OpCodes.Br, jumpLabel);
+                codes[replaceIndex].operand = jumpLabel;
                 Debug.Print("[FixedBanditSpawning] Age checker in Mission.SpawnAgent() bypassed :)");
             }
 
             return codes.AsEnumerable();
+        }
+    }
+
+    [HarmonyPatch(typeof(Mission), "BuildAgent")]
+    public static class Mission_BuildAgent_Patch
+    {
+        public static void Postfix(ref Agent agent)
+        {   
+            if (agent.IsHuman && agent.Age < 18f)
+            {
+                float age = agent.Age;
+                float scale = agent.AgentScale;
+                //Debug.Print(string.Format("[FixedBanditSpawning] original agent {0} scale: {1}", agent.Name, agent.AgentScale));
+                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
+                SkinGenerationParams skinParams = new SkinGenerationParams((int)(SkinMask.NoneVisible), agent.SpawnEquipment.GetUnderwearType(agent.IsFemale),
+                    (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType, (int)agent.SpawnEquipment.BeardCoverType,
+                    (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, false, false);
+                agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue);
+                //Debug.Print(string.Format("[FixedBanditSpawning] original agent {0} scale: {1}", agent.Name, agent.AgentScale));
+                AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new object[] { scale });
+                //Debug.Print(string.Format("[FixedBanditSpawning] original agent {0} scale: {1}", agent.Name, agent.AgentScale));
+                agent.AgentVisuals.BatchLastLodMeshes();
+                agent.PreloadForRendering();
+                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
+            }
         }
     }
 }

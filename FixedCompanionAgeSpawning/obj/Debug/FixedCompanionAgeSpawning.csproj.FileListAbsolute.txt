@@ -27,3 +27,4 @@ D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBandit
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedCompanionAgeSpawning\obj\Debug\FixedCompanionAgeSpawning.csproj.CopyComplete
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedCompanionAgeSpawning\obj\Debug\FixedCompanionAgeSpawning.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedCompanionAgeSpawning\obj\Debug\FixedCompanionAgeSpawning.pdb
+D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedCompanionAgeSpawning\bin\Debug\TaleWorlds.ObjectSystem.dll
