@@ -37,7 +37,7 @@ namespace FixedBanditSpawning
             switch (partyType)
             {
                 case MobileParty.PartyTypeEnum.Bandit: // TaleWorlds hardcoding strikes again
-                    double num1 = 0.33 + 0.67 * MiscHelper.GetGameProcess();
+                    double num1 = 0.4 + 0.6 * MiscHelper.GetGameProcess();
                     int num2 = MBRandom.RandomInt(2);
                     double num3 = num2 == 0 ? MBRandom.RandomFloat : (MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat * 4.0);
                     double num4 = num2 == 0 ? (num3 * 0.8 + 0.2) : 1 + num3;
