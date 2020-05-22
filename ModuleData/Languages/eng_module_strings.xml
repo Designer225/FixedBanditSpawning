@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="English"/>
+  </tags>
+  <strings>
+    <string id="ModNameText" text="Designer225's Miscellaneous Fixes"/>
+    
+    <string id="PatchBanditSpawningName" text="Regeneration Values"/>
+    <string id="PatchBanditSpawningHint" text="Regen Amount (Percents) Per Second"/>
+    <string id="PatchAgentSpawningName" text="What percent of total health to be regenerated every second. (Regen is applied continuously with this mod.) Default is 1%."/>
+    <string id="PatchAgentSpawningHint" text="Medicine Boost (Percents)"/>
+    <string id="PatchInvincibleChildrenName" text="Regen is increased by this percentage for every 50 points in a human agent's medicine skill. Riders affect regen for their mounts at standard efficiency. Bonuses stack additively. Default is 50%."/>
+    <string id="PatchInvincibleChildrenHint" text="Medicine Boost (Percents) For Commanders"/>
+    <string id="PatchWandererSpawningName" text="Regen is increased by this percentage for every 50 points in a commander's medicine skills. Bonuses stack additively. Default is 25%."/>
+    <string id="PatchWandererSpawningHint" text="XP Gain Per Full Health"/>
+    <string id="WanderSpawningRngMaxName" text="How much XP is gained when an agent or its rider (if applicable) heals enough to refill its health bar from 0 to max health. XP gain is continuous. Default is 1."/>
+    <string id="WanderSpawningRngMaxHint" text="XP Gain Per Full Health For Commanders"/>
+  </strings>
+</base>
