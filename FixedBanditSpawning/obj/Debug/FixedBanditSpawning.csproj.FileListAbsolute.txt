@@ -28,3 +28,4 @@ D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBandit
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.pdb
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csprojAssemblyReference.cache
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\TaleWorlds.ObjectSystem.dll
+D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\MBOptionScreen.v2.0.10.dll
