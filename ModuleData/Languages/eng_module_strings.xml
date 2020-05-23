@@ -4,17 +4,17 @@
     <tag language="English"/>
   </tags>
   <strings>
-    <string id="D225MiscFixesModNameText" text="Designer225's Miscellaneous Fixes"/>
+    <string id="D225MiscFixes_ModNameText" text="Designer225's Miscellaneous Fixes"/>
     
-    <string id="PatchBanditSpawningName" text="Patch Bandit Spawning"/>
-    <string id="PatchBanditSpawningHint" text="Enable this to patch bandit spawning to allow more than 3 types of troops. Disable if another mod also does this."/>
-    <string id="PatchAgentSpawningName" text="Patch Agent Spawning"/>
-    <string id="PatchAgentSpawningHint" text="Enable this to bypass age check that makes underage agents look adult-ish. Disable if another mod also does this."/>
-    <string id="PatchInvincibleChildrenName" text="Patch Invincible Children"/>
-    <string id="PatchInvincibleChildrenHint" text="Enable this to make children less overpowered. Disable if another mod also does this."/>
-    <string id="PatchWandererSpawningName" text="Patch Wander Spawning"/>
-    <string id="PatchWandererSpawningHint" text="Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this."/>
-    <string id="WanderSpawningRngMaxName" text="Wanderer Max RNG Age Increase"/>
-    <string id="WanderSpawningRngMaxHint" text="Sets the maximum age increase of wanderers during game start. Default is 32 years (originally 5 + randomized max 27). Does not require restart unlike other options."/>
+    <string id="D225MiscFixes_PatchBanditSpawningName" text="Patch Bandit Spawning"/>
+    <string id="D225MiscFixes_PatchBanditSpawningHint" text="Enable this to patch bandit spawning to allow more than 3 types of troops. Disable if another mod also does this."/>
+    <string id="D225MiscFixes_PatchAgentSpawningName" text="Patch Agent Spawning"/>
+    <string id="D225MiscFixes_PatchAgentSpawningHint" text="Enable this to bypass age check that makes underage agents look adult-ish. Disable if another mod also does this."/>
+    <string id="D225MiscFixes_PatchInvincibleChildrenName" text="Patch Invincible Children"/>
+    <string id="D225MiscFixes_PatchInvincibleChildrenHint" text="Enable this to make children less overpowered. Disable if another mod also does this."/>
+    <string id="D225MiscFixes_PatchWandererSpawningName" text="Patch Wander Spawning"/>
+    <string id="D225MiscFixes_PatchWandererSpawningHint" text="Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this."/>
+    <string id="D225MiscFixes_WanderSpawningRngMaxName" text="Wanderer Max RNG Age Increase"/>
+    <string id="D225MiscFixes_WanderSpawningRngMaxHint" text="Sets the maximum age increase of wanderers during game start. Default is 32 years (originally 5 + randomized max 27). Does not require restart unlike other options."/>
   </strings>
 </base>
