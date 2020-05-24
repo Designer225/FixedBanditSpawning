@@ -204,15 +204,15 @@ namespace FixedBanditSpawning
             {
                 float age = agent.Age;
                 float scale = agent.AgentScale;
-                //Debug.Print(string.Format("[FixedBanditSpawning] original agent {0} scale: {1}", agent.Name, agent.AgentScale));
                 AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
-                SkinGenerationParams skinParams = new SkinGenerationParams((int)(SkinMask.NoneVisible), agent.SpawnEquipment.GetUnderwearType(agent.IsFemale),
+
+                SkinGenerationParams skinParams = 
+                    new SkinGenerationParams((int)(SkinMask.NoneVisible), agent.SpawnEquipment.GetUnderwearType(agent.IsFemale && agent.Age >= 14),
                     (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType, (int)agent.SpawnEquipment.BeardCoverType,
                     (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, false, false);
                 agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue);
-                //Debug.Print(string.Format("[FixedBanditSpawning] original agent {0} scale: {1}", agent.Name, agent.AgentScale));
                 AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new object[] { scale });
-                //Debug.Print(string.Format("[FixedBanditSpawning] original agent {0} scale: {1}", agent.Name, agent.AgentScale));
+
                 agent.AgentVisuals.BatchLastLodMeshes();
                 agent.PreloadForRendering();
                 AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
