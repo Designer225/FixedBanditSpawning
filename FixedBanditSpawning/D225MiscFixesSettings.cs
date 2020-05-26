@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MBOptionScreen.Settings;
-using MBOptionScreen.Attributes;
-using MBOptionScreen.Attributes.v2;
+using MCM.Abstractions.Settings.Base.Global;
+using MCM.Abstractions.Attributes;
+using MCM.Abstractions.Attributes.v2;
 
 namespace FixedBanditSpawning
 {
-    public partial class D225MiscFixesSettings : AttributeSettings<D225MiscFixesSettings>
+    public partial class D225MiscFixesSettings : AttributeGlobalSettings<D225MiscFixesSettings>
     {
-        public override string Id { get; set; } = "D225.MiscFixes";
+        public override string Id => "D225.MiscFixes";
 
-        public override string ModuleFolderName => "D225.MiscFixes";
+        public override string FolderName => "D225.MiscFixes";
 
-        public override string ModName => ModNameTextObject.ToString();
+        public override string DisplayName => ModNameTextObject.ToString();
 
         [SettingPropertyBool(PatchBanditSpawningName, HintText = PatchBanditSpawningHint, Order = 0, RequireRestart = true)]
         public bool PatchBanditSpawning { get; set; } = true;
