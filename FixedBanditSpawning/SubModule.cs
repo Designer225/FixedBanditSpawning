@@ -90,6 +90,7 @@ namespace FixedBanditSpawning
             var codes = instructions.ToList();
 
             int stage = 0;
+            bool oldVersion = false;
             int replaceIndex = -1;
             Label jumpLabel = default;
             for (int i = 0; i < codes.Count; i++)
@@ -100,9 +101,17 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 1)
                 {
-                    if (codes[i].opcode == OpCodes.Brtrue_S && codes[i].operand is Label)
+                    stage = 2;
+                    if (codes[i].opcode != OpCodes.Ldc_R4)
                     {
-                        stage = 2;
+                        oldVersion = true;
+                    }
+                }
+                else if (stage == 2)
+                {
+                    if ((codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label) || (oldVersion && codes[i].opcode == OpCodes.Brtrue_S && codes[i].operand is Label))
+                    {
+                        stage = 3;
                         replaceIndex = i;
                     }
                     else
@@ -110,21 +119,9 @@ namespace FixedBanditSpawning
                         stage = 0;
                     }
                 }
-                else if (stage == 2)
-                {
-                    if (codes[i].opcode == OpCodes.Ldarg_1)
-                    {
-                        stage = 3;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
                 else if (stage == 3)
                 {
-                    if (codes[i].opcode == OpCodes.Ldc_I4_S)
+                    if (codes[i].opcode == OpCodes.Ldarg_1)
                     {
                         stage = 4;
                     }
@@ -136,8 +133,7 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 4)
                 {
-                    if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand is MethodInfo
-                        && codes[i].operand as MethodInfo == AccessTools.Method(typeof(AgentBuildData), nameof(AgentBuildData.Age)))
+                    if (codes[i].opcode == OpCodes.Ldc_I4_S)
                     {
                         stage = 5;
                     }
@@ -149,7 +145,8 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 5)
                 {
-                    if (codes[i].opcode == OpCodes.Pop)
+                    if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand is MethodInfo
+                        && codes[i].operand as MethodInfo == AccessTools.Method(typeof(AgentBuildData), nameof(AgentBuildData.Age)))
                     {
                         stage = 6;
                     }
@@ -160,6 +157,18 @@ namespace FixedBanditSpawning
                     }
                 }
                 else if (stage == 6)
+                {
+                    if (codes[i].opcode == OpCodes.Pop)
+                    {
+                        stage = 7;
+                    }
+                    else
+                    {
+                        stage = 0;
+                        replaceIndex = -1;
+                    }
+                }
+                else if (stage == 7)
                 {
                     if (codes[i].opcode == OpCodes.Br_S && codes[i].operand is Label)
                     {
@@ -207,7 +216,7 @@ namespace FixedBanditSpawning
                 AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
 
                 SkinGenerationParams skinParams = 
-                    new SkinGenerationParams((int)(SkinMask.NoneVisible), agent.SpawnEquipment.GetUnderwearType(agent.IsFemale && agent.Age >= 14),
+                    new SkinGenerationParams((int)SkinMask.NoneVisible, agent.SpawnEquipment.GetUnderwearType(agent.IsFemale && agent.Age >= 14),
                     (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType, (int)agent.SpawnEquipment.BeardCoverType,
                     (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, false, false);
                 agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue);
@@ -283,7 +292,7 @@ namespace FixedBanditSpawning
                 {
                     if (codes[i].opcode == OpCodes.Bge_S && codes[i].operand is Label)
                     {
-                        jumpLabel = (Label)(codes[i].operand);
+                        jumpLabel = (Label)codes[i].operand;
                         break;
                     }
                     else
