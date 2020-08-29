@@ -27,6 +27,28 @@ namespace FixedBanditSpawning
             Harmony harmony = new Harmony("d225.fixedbanditspawning");
             harmony.PatchAll();
         }
+
+        internal static void DisableInvulnerability(Agent agent)
+        {
+            if (agent.IsHuman && agent.Age < 18f)
+            {
+                float age = agent.Age;
+                float scale = agent.AgentScale;
+                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
+
+                SkinGenerationParams skinParams = SubModule.GenerateSkinGenParams(agent);
+                agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue);
+                AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new object[] { scale });
+                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
+            }
+        }
+
+        internal static SkinGenerationParams GenerateSkinGenParams(Agent agent)
+        {
+            return new SkinGenerationParams((int)SkinMask.NoneVisible, agent.SpawnEquipment.GetUnderwearType(agent.IsFemale && agent.Age >= 14),
+                    (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType, (int)agent.SpawnEquipment.BeardCoverType,
+                    (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, false, false);
+        }
     }
 
     [HarmonyPatch(typeof(MobileParty), "FillPartyStacks")]
@@ -207,25 +229,32 @@ namespace FixedBanditSpawning
             return false;
         }
 
-        public static void Postfix(ref Agent agent)
+        public static void Postfix(Agent agent)
         {   
             if (agent.IsHuman && agent.Age < 18f)
             {
-                float age = agent.Age;
-                float scale = agent.AgentScale;
-                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
-
-                SkinGenerationParams skinParams = 
-                    new SkinGenerationParams((int)SkinMask.NoneVisible, agent.SpawnEquipment.GetUnderwearType(agent.IsFemale && agent.Age >= 14),
-                    (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType, (int)agent.SpawnEquipment.BeardCoverType,
-                    (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, false, false);
-                agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue);
-                AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new object[] { scale });
-
+                SubModule.DisableInvulnerability(agent);
                 agent.AgentVisuals.BatchLastLodMeshes();
                 agent.PreloadForRendering();
-                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
+                agent.UpdateSpawnEquipmentAndRefreshVisuals(agent.SpawnEquipment);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(Agent), nameof(Agent.UpdateSpawnEquipmentAndRefreshVisuals))]
+    public static class UpdateSpawnEquipmentAndRefreshVisualsPatch
+    {
+        public static bool Prepare()
+        {
+            if (D225MiscFixesSettings.Instance != null && D225MiscFixesSettings.Instance.PatchInvincibleChildren)
+                return true;
+            return false;
+        }
+
+        public static void Postfix(Agent __instance)
+        {
+            if (__instance.IsHuman && __instance.Age < 18f)
+                SubModule.DisableInvulnerability(__instance);
         }
     }
 
