@@ -16,5 +16,9 @@
     <string id="D225MiscFixes_PatchWandererSpawningHint" text="Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this."/>
     <string id="D225MiscFixes_WanderSpawningRngMaxName" text="Wanderer Max RNG Age Increase"/>
     <string id="D225MiscFixes_WanderSpawningRngMaxHint" text="Sets the maximum age increase of wanderers during game start. Default is 32 years (originally 5 + randomized max 27). Does not require restart unlike other options."/>
+    <string id="D225MiscFixes_TownAndVillageVarietyName" text="Add Variety to Villagers and Townsfolk"/>
+    <string id="D225MiscFixes_TownAndVillageVarietyHint" text="Make villagers and townsfolk slightly more varied and gendered. Also fixes an issue with modified age models, while also making some children less innocent. Disable if another mod also does this."/>
+    <string id="D225MiscFixes_WorkerMaleToFemaleRatioName" text="Worker Gender Ratio"/>
+    <string id="D225MiscFixes_WorkerMaleToFemaleRatioHint" text="Affects the ratio of workers (not just any generic townsfolk and villagers) in towns and villages that are male or female. Default is 30%. Game default is 0%. Does not require restart unlike other options."/>
   </strings>
 </base>

@@ -1,31 +1,23 @@
 <Module>
-	<Name value="Designer225's Miscellaneous Fixes"/>
-	<Id value="FixedBanditSpawning"/>
-	<Version value="v1.0.5"/>
-	<SingleplayerModule value="true"/>
-	<MultiplayerModule value="false"/>
-	<Official value="false"/>
-	<DependedModules>
-		<DependedModule Id="Native"/>
-		<DependedModule Id="SandBoxCore"/>
-		<DependedModule Id="Sandbox"/>
-		<DependedModule Id="CustomBattle"/>
-		<DependedModule Id="StoryMode"/>
-	</DependedModules>
+  <Name value="Designer225's Miscellaneous Fixes"/>
+  <Id value="FixedBanditSpawning"/>
+  <Version value="v1.1.0"/>
+  <SingleplayerModule value="true"/>
+  <MultiplayerModule value="false"/>
+  <Official value="false"/>
+  <DependedModules>
+    <DependedModule Id="Native"/>
+    <DependedModule Id="SandBoxCore"/>
+    <DependedModule Id="Sandbox"/>
+    <DependedModule Id="CustomBattle"/>
+    <DependedModule Id="StoryMode"/>
+    <DependedModule Id="Bannerlord.MBOptionScreen"/>
+  </DependedModules>
   <SubModules>
     <SubModule>
       <Name value="FixedBanditSpawning"/>
       <DLLName value="FixedBanditSpawning.dll"/>
       <SubModuleClassType value="FixedBanditSpawning.SubModule"/>
-      <Tags>
-        <Tag key="DedicatedServerType" value="none" />
-        <Tag key="IsNoRenderModeElement" value="false" />
-      </Tags>
-    </SubModule>
-    <SubModule>
-      <Name value="MCMv3 Integrated Loader" />
-      <DLLName value="MCMv3.dll" />
-      <SubModuleClassType value="MCM.IntegratedLoaderSubModule" />
       <Tags>
         <Tag key="DedicatedServerType" value="none" />
         <Tag key="IsNoRenderModeElement" value="false" />
