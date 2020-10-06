@@ -26,15 +26,18 @@ namespace FixedBanditSpawning
             return true;
         }
 
-        public static void Prefix(ref AgentData agentData)
+        public static void Prefix(AgentData agentData)
         {
             try
             {
-                AgeModel ageModel = Campaign.Current.Models.AgeModel;
+                AgeModel ageModel = Campaign.Current?.Models?.AgeModel;
+                if (ageModel == default) return;
+
                 BasicCharacterObject character = agentData.AgentCharacter;
                 if (character is CharacterObject)
                 {
                     CultureObject culture = (character as CharacterObject).Culture;
+                    if (culture == default) return;
 
                     int randMin = agentData.AgentAge;
                     int randMax = randMin;
