@@ -28,84 +28,91 @@ namespace FixedBanditSpawning
 
         public static void Prefix(ref AgentData agentData)
         {
-            AgeModel ageModel = Campaign.Current.Models.AgeModel;
-            BasicCharacterObject character = agentData.AgentCharacter;
-            if (character is CharacterObject)
+            try
             {
-                CultureObject culture = (character as CharacterObject).Culture;
+                AgeModel ageModel = Campaign.Current.Models.AgeModel;
+                BasicCharacterObject character = agentData.AgentCharacter;
+                if (character is CharacterObject)
+                {
+                    CultureObject culture = (character as CharacterObject).Culture;
 
-                int randMin = agentData.AgentAge;
-                int randMax = randMin;
+                    int randMin = agentData.AgentAge;
+                    int randMax = randMin;
 
-                // Rather spaghetti-ish, but should do better performance wise
-                if (character == culture.Barber || character == culture.ShopWorker || character == culture.TavernGamehost || character == culture.Tavernkeeper
-                    || character == culture.Musician || character == culture.Armorer || character == culture.Blacksmith || character == culture.HorseMerchant
-                    || character == culture.Merchant || character == culture.Weaponsmith || character == culture.GangleaderBodyguard)
-                {
-                    randMin = TweenAge;
-                    randMax = ageModel.BecomeOldAge;
-                    agentData.IsFemale(MBRandom.RandomFloat <
-                        (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
-                }
-                else if (character == culture.ArtisanNotary || character == culture.MerchantNotary || character == culture.PreacherNotary
-                    || character == culture.RuralNotableNotary || character == culture.RansomBroker)
-                {
-                    randMin = TweenAge;
-                    randMax = ageModel.MaxAge;
-                    agentData.IsFemale(MBRandom.RandomFloat <
-                        (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
-                }
-                else if (character == culture.MeleeMilitiaTroop || character == culture.RangedMilitiaTroop
-                    || character == culture.MilitiaSpearman || character == culture.MilitiaArcher)
-                {
-                    randMin = TeenAge;
-                    randMax = ageModel.BecomeOldAge;
-                    agentData.IsFemale(MBRandom.RandomFloat <
-                        (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
-                }
-                else if (character == culture.MeleeEliteMilitiaTroop || character == culture.RangedEliteMilitiaTroop
-                    || character == culture.MilitiaVeteranSpearman || character == culture.MilitiaVeteranArcher)
-                {
-                    randMin = AdultAge;
-                    randMax = ageModel.BecomeOldAge;
-                    agentData.IsFemale(MBRandom.RandomFloat <
-                        (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
-                }
-                else if (character == culture.TavernWench || character == culture.FemaleDancer)
-                {
-                    randMin = TweenAge;
-                    randMax = ageModel.BecomeOldAge;
-                }
-                else if (character == culture.Townsman || character == culture.Townswoman || character == culture.Villager || character == culture.VillageWoman)
-                {
-                    randMin = TweenAge;
-                    randMax = ageModel.MaxAge;
-                }
-                else if (character == culture.Beggar || character == culture.FemaleBeggar)
-                {
-                    randMin = ChildAge;
-                    randMax = ageModel.MaxAge;
-                }
-                else if (character == culture.TownsmanInfant || character == culture.TownswomanInfant)
-                {
-                    randMin = InfantAge;
-                    randMax = ChildAge;
-                }
-                else if (character == culture.TownsmanChild || character == culture.TownswomanChild
-                    || character == culture.VillagerMaleChild || character == culture.VillagerFemaleChild)
-                {
-                    randMin = ChildAge;
-                    randMax = TeenAge;
-                }
-                else if (character == culture.TownsmanTeenager || character == culture.TownswomanTeenager
-                    || character == culture.VillagerMaleTeenager || character == culture.VillagerFemaleTeenager)
-                {
-                    randMin = TeenAge;
-                    randMax = AdultAge;
-                }
+                    // Rather spaghetti-ish, but should do better performance wise
+                    if (character == culture.Barber || character == culture.ShopWorker || character == culture.TavernGamehost || character == culture.Tavernkeeper
+                        || character == culture.Musician || character == culture.Armorer || character == culture.Blacksmith || character == culture.HorseMerchant
+                        || character == culture.Merchant || character == culture.Weaponsmith || character == culture.GangleaderBodyguard)
+                    {
+                        randMin = TweenAge;
+                        randMax = ageModel.BecomeOldAge;
+                        agentData.IsFemale(MBRandom.RandomFloat <
+                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                    }
+                    else if (character == culture.ArtisanNotary || character == culture.MerchantNotary || character == culture.PreacherNotary
+                        || character == culture.RuralNotableNotary || character == culture.RansomBroker)
+                    {
+                        randMin = TweenAge;
+                        randMax = ageModel.MaxAge;
+                        agentData.IsFemale(MBRandom.RandomFloat <
+                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                    }
+                    else if (character == culture.MeleeMilitiaTroop || character == culture.RangedMilitiaTroop
+                        || character == culture.MilitiaSpearman || character == culture.MilitiaArcher)
+                    {
+                        randMin = TeenAge;
+                        randMax = ageModel.BecomeOldAge;
+                        agentData.IsFemale(MBRandom.RandomFloat <
+                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                    }
+                    else if (character == culture.MeleeEliteMilitiaTroop || character == culture.RangedEliteMilitiaTroop
+                        || character == culture.MilitiaVeteranSpearman || character == culture.MilitiaVeteranArcher)
+                    {
+                        randMin = AdultAge;
+                        randMax = ageModel.BecomeOldAge;
+                        agentData.IsFemale(MBRandom.RandomFloat <
+                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                    }
+                    else if (character == culture.TavernWench || character == culture.FemaleDancer)
+                    {
+                        randMin = TweenAge;
+                        randMax = ageModel.BecomeOldAge;
+                    }
+                    else if (character == culture.Townsman || character == culture.Townswoman || character == culture.Villager || character == culture.VillageWoman)
+                    {
+                        randMin = TweenAge;
+                        randMax = ageModel.MaxAge;
+                    }
+                    else if (character == culture.Beggar || character == culture.FemaleBeggar)
+                    {
+                        randMin = ChildAge;
+                        randMax = ageModel.MaxAge;
+                    }
+                    else if (character == culture.TownsmanInfant || character == culture.TownswomanInfant)
+                    {
+                        randMin = InfantAge;
+                        randMax = ChildAge;
+                    }
+                    else if (character == culture.TownsmanChild || character == culture.TownswomanChild
+                        || character == culture.VillagerMaleChild || character == culture.VillagerFemaleChild)
+                    {
+                        randMin = ChildAge;
+                        randMax = TeenAge;
+                    }
+                    else if (character == culture.TownsmanTeenager || character == culture.TownswomanTeenager
+                        || character == culture.VillagerMaleTeenager || character == culture.VillagerFemaleTeenager)
+                    {
+                        randMin = TeenAge;
+                        randMax = AdultAge;
+                    }
 
-                if (agentData.AgeOverriden || randMin != agentData.AgentAge || randMin != randMax)
-                    agentData.Age(MBRandom.RandomInt(randMin, randMax));
+                    if (agentData.AgeOverriden || randMin != agentData.AgentAge || randMin != randMax)
+                        agentData.Age(MBRandom.RandomInt(randMin, randMax));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Print($"[FixedBanditSpawning] Error attempting to modify location character agent data.\n{e}");
             }
         }
     }
