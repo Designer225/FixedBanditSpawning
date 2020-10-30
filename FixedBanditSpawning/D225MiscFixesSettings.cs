@@ -17,8 +17,7 @@ namespace FixedBanditSpawning
         {
             get
             {
-                if (instance == null)
-                    instance = D225MiscFixesSettings.Instance as ID225MiscFixesSettings ?? new D225MiscFixesDefaultSettings();
+                instance = D225MiscFixesSettings.Instance ?? instance ?? new D225MiscFixesDefaultSettings();
                 return instance;
             }
         }
