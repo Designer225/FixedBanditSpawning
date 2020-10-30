@@ -56,7 +56,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance != null && D225MiscFixesSettings.Instance.PatchBanditSpawning)
+            if (D225MiscFixesSettingsUtil.Instance.PatchBanditSpawning)
             {
                 Debug.Print("[FixedBanditSpawning] Will patch bandit spawning in MobileParty.FillPartyStack()");
                 return true;
@@ -100,7 +100,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance != null && D225MiscFixesSettings.Instance.PatchAgentSpawning)
+            if (D225MiscFixesSettingsUtil.Instance.PatchAgentSpawning)
                 return true;
             Debug.Print("[FixedBanditSpawning] Will NOT attempt tp bypass age checker in Mission.SpawnAgent()");
             return false;
@@ -220,7 +220,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance != null && D225MiscFixesSettings.Instance.PatchInvincibleChildren)
+            if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
             {
                 Debug.Print("[FixedBanditSpawning] Will patch invincible children");
                 return true;
@@ -246,7 +246,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance != null && D225MiscFixesSettings.Instance.PatchInvincibleChildren)
+            if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
                 return true;
             return false;
         }
@@ -263,7 +263,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance != null && D225MiscFixesSettings.Instance.PatchWandererSpawning)
+            if (D225MiscFixesSettingsUtil.Instance.PatchWandererSpawning)
                 return true;
             Debug.Print("[FixedBanditSpawning] Will NOT attempt to patch age checkers in HeroCreator.CreateNewHero()");
             return false;
@@ -347,7 +347,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance != null && D225MiscFixesSettings.Instance.PatchWandererSpawning)
+            if (D225MiscFixesSettingsUtil.Instance.PatchWandererSpawning)
                 return true;
             Debug.Print("[FixedBanditSpawning] Will NOT attempt to bypass artificial age adder in UrbanCharactersCampaignBehavior.CreateCompanion()");
             return false;
@@ -366,7 +366,7 @@ namespace FixedBanditSpawning
                     codes[i + 1] = new CodeInstruction(OpCodes.Nop);
                     codes[i + 2] = new CodeInstruction(OpCodes.Nop);
                     codes[i + 3] = new CodeInstruction(OpCodes.Call,
-                        AccessTools.PropertyGetter(typeof(D225MiscFixesSettings), nameof(D225MiscFixesSettings.WandererRngMaxAge)));
+                        AccessTools.PropertyGetter(typeof(D225MiscFixesSettingsUtil), nameof(D225MiscFixesSettingsUtil.WandererRngMaxAge)));
                     Debug.Print("[FixedBanditSpawning] Artificial age adder in UrbanCharactersCampaignBehavior.CreateCompanion() bypassed :)");
                     break;
                 }

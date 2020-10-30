@@ -21,7 +21,7 @@ namespace FixedBanditSpawning
 
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance == null || !D225MiscFixesSettings.Instance.TownAndVillageVariety) return false;
+            if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
             Debug.Print("[FixedBanditSpawning] Adding a little bit variety to towns and villages...");
             return true;
         }
@@ -49,32 +49,28 @@ namespace FixedBanditSpawning
                     {
                         randMin = TweenAge;
                         randMax = ageModel.BecomeOldAge;
-                        agentData.IsFemale(MBRandom.RandomFloat <
-                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                        agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
                     else if (character == culture.ArtisanNotary || character == culture.MerchantNotary || character == culture.PreacherNotary
                         || character == culture.RuralNotableNotary || character == culture.RansomBroker)
                     {
                         randMin = TweenAge;
                         randMax = ageModel.MaxAge;
-                        agentData.IsFemale(MBRandom.RandomFloat <
-                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                        agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
                     else if (character == culture.MeleeMilitiaTroop || character == culture.RangedMilitiaTroop
                         || character == culture.MilitiaSpearman || character == culture.MilitiaArcher)
                     {
                         randMin = TeenAge;
                         randMax = ageModel.BecomeOldAge;
-                        agentData.IsFemale(MBRandom.RandomFloat <
-                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                        agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
                     else if (character == culture.MeleeEliteMilitiaTroop || character == culture.RangedEliteMilitiaTroop
                         || character == culture.MilitiaVeteranSpearman || character == culture.MilitiaVeteranArcher)
                     {
                         randMin = AdultAge;
                         randMax = ageModel.BecomeOldAge;
-                        agentData.IsFemale(MBRandom.RandomFloat <
-                            (D225MiscFixesSettings.Instance != null ? D225MiscFixesSettings.Instance.WorkerGenderRatio : WorkerGenderRatio));
+                        agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
                     else if (character == culture.TavernWench || character == culture.FemaleDancer)
                     {
@@ -125,7 +121,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance == null || !D225MiscFixesSettings.Instance.TownAndVillageVariety) return false;
+            if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
             Debug.Print("[FixedBanditSpawning] Making some children less innocent...");
             return true;
         }
@@ -150,7 +146,7 @@ namespace FixedBanditSpawning
     {
         public static bool Prepare()
         {
-            if (D225MiscFixesSettings.Instance == null || !D225MiscFixesSettings.Instance.TownAndVillageVariety) return false;
+            if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
             Debug.Print("[FixedBanditSpawning] Patching hero creation method to allow female notables (on top of existing female templates... who instead can be male)...");
             return true;
         }
@@ -159,8 +155,7 @@ namespace FixedBanditSpawning
         {
             // It appears that gang leaders, merchants, and preachers have some female representation. Will skip them in that case.
             if ((__result.IsArtisan || __result.IsRuralNotable || __result.IsHeadman || __result.IsOutlaw) && !__result.IsFemale)
-                __result.UpdatePlayerGender(MBRandom.RandomFloat < (D225MiscFixesSettings.Instance != null
-                    ? D225MiscFixesSettings.Instance.WorkerGenderRatio : LocationCharacterConstructorPatch.WorkerGenderRatio));
+                __result.UpdatePlayerGender(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
 
             AgeModel ageModel = Campaign.Current.Models.AgeModel;
             int baseAge = Math.Max(ageModel.HeroComesOfAge, LocationCharacterConstructorPatch.TweenAge);

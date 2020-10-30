@@ -9,7 +9,58 @@ using MCM.Abstractions.Attributes.v2;
 
 namespace FixedBanditSpawning
 {
-    public partial class D225MiscFixesSettings : AttributeGlobalSettings<D225MiscFixesSettings>
+    static class D225MiscFixesSettingsUtil
+    {
+        private static ID225MiscFixesSettings instance;
+
+        public static ID225MiscFixesSettings Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = D225MiscFixesSettings.Instance as ID225MiscFixesSettings ?? new D225MiscFixesDefaultSettings();
+                return instance;
+            }
+        }
+
+        public static int WandererRngMaxAge => Instance.WanderSpawningRngMax;
+    }
+
+    interface ID225MiscFixesSettings
+    {
+        bool PatchBanditSpawning { get; set; }
+
+        bool PatchAgentSpawning { get; set; }
+
+        bool PatchInvincibleChildren { get; set; }
+
+        bool PatchWandererSpawning { get; set; }
+
+        int WanderSpawningRngMax { get; set; }
+
+        bool TownAndVillageVariety { get; set; }
+
+        float WorkerGenderRatio { get; set; }
+    }
+
+    class D225MiscFixesDefaultSettings : ID225MiscFixesSettings
+    {
+        public bool PatchBanditSpawning { get; set; } = true;
+
+        public bool PatchAgentSpawning { get; set; } = true;
+
+        public bool PatchInvincibleChildren { get; set; } = true;
+
+        public bool PatchWandererSpawning { get; set; } = true;
+
+        public int WanderSpawningRngMax { get; set; } = 32;
+
+        public bool TownAndVillageVariety { get; set; } = true;
+
+        public float WorkerGenderRatio { get; set; } = LocationCharacterConstructorPatch.WorkerGenderRatio;
+    }
+
+    partial class D225MiscFixesSettings : AttributeGlobalSettings<D225MiscFixesSettings>, ID225MiscFixesSettings
     {
         public override string Id => "D225.MiscFixes";
 
@@ -29,22 +80,20 @@ namespace FixedBanditSpawning
         [SettingPropertyGroup(ModNameText)]
         public bool PatchInvincibleChildren { get; set; } = true;
 
-        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, Order = 3, RequireRestart = true)]
-        [SettingPropertyGroup(PatchWandererSpawningName, GroupOrder = 1, IsMainToggle = true)]
+        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, Order = 3, RequireRestart = true)]
+        [SettingPropertyGroup(PatchWandererSpawningName, GroupOrder = 1)]
         public bool PatchWandererSpawning { get; set; } = true;
 
         [SettingPropertyInteger(WanderSpawningRngMaxName, 0, 50, HintText = WanderSpawningRngMaxHint, Order = 4, RequireRestart = false)]
         [SettingPropertyGroup(PatchWandererSpawningName)]
         public int WanderSpawningRngMax { get; set; } = 32;
 
-        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, Order = 5, RequireRestart = true)]
-        [SettingPropertyGroup(TownAndVillageVarietyName, GroupOrder = 2, IsMainToggle = true)]
+        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, IsToggle = true, Order = 5, RequireRestart = true)]
+        [SettingPropertyGroup(TownAndVillageVarietyName, GroupOrder = 2)]
         public bool TownAndVillageVariety { get; set; } = true;
 
         [SettingPropertyFloatingInteger(WorkerGenderRatioName, 0, 1, HintText = WorkerGenderRatioHint, Order = 6, RequireRestart = false)]
         [SettingPropertyGroup(TownAndVillageVarietyName)]
         public float WorkerGenderRatio { get; set; } = LocationCharacterConstructorPatch.WorkerGenderRatio;
-
-        public static int WandererRngMaxAge => Instance != null ? Instance.WanderSpawningRngMax : 32;
     }
 }
