@@ -66,6 +66,8 @@ namespace FixedBanditSpawning
 
         public override string FolderName => "D225.MiscFixes";
 
+        public override string FormatType => "json2";
+
         public override string DisplayName => ModNameTextObject.ToString();
 
         [SettingPropertyBool(PatchBanditSpawningName, HintText = PatchBanditSpawningHint, Order = 0, RequireRestart = true)]
