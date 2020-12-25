@@ -160,7 +160,7 @@ namespace FixedBanditSpawning
             AgeModel ageModel = Campaign.Current.Models.AgeModel;
             int baseAge = Math.Max(ageModel.HeroComesOfAge, LocationCharacterConstructorPatch.TweenAge);
             if (__result.IsNotable || __result.IsOutlaw)
-                __result.BirthDay = HeroHelper.GetRandomBirthDayForAge(baseAge + MBRandom.RandomInt(ageModel.BecomeOldAge - baseAge + 1));
+                __result.SetBirthDay(HeroHelper.GetRandomBirthDayForAge(baseAge + MBRandom.RandomInt(ageModel.BecomeOldAge - baseAge + 1)));
         }
     }
 }
