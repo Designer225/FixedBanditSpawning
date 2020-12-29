@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using MCM.Abstractions.Settings.Base.Global;
 using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
+using TaleWorlds.Library;
+using System.IO;
 
 namespace FixedBanditSpawning
 {
@@ -13,11 +17,57 @@ namespace FixedBanditSpawning
     {
         private static ID225MiscFixesSettings instance;
 
+        private static FileInfo ConfigFile { get; } = new FileInfo(Path.Combine(BasePath.Name, "Modules", "D225.MiscFixes.config.xml"));
+
         public static ID225MiscFixesSettings Instance
         {
             get
             {
-                instance = D225MiscFixesSettings.Instance ?? instance ?? new D225MiscFixesDefaultSettings();
+                //instance = D225MiscFixesSettings.Instance ?? instance ?? new D225MiscFixesDefaultSettings();
+
+                // attempt to load MCM config
+                try
+                {
+                    instance = D225MiscFixesSettings.Instance ?? instance;
+                }
+                catch (Exception e)
+                {
+                    Debug.Print(string.Format("[FixedBanditSpawning] Failed to obtain MCM config, defaulting to config file.",
+                        ConfigFile.FullName, e.Message, e.StackTrace));
+                }
+
+                // load config file if MCM config load fails
+                if (instance == default)
+                {
+                    var serializer = new XmlSerializer(typeof(D225MiscFixesDefaultSettings));
+                    if (ConfigFile.Exists)
+                    {
+                        try
+                        {
+                            using (var stream = ConfigFile.OpenText())
+                                instance = serializer.Deserialize(stream) as D225MiscFixesDefaultSettings;
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(string.Format("[FixedBanditSpawning] Failed to load file {0}\n\nError: {1}\n\n{2}",
+                                ConfigFile.FullName, e.Message, e.StackTrace));
+                        }
+                    }
+
+                    if (instance == default)
+                    {
+                        instance = new D225MiscFixesDefaultSettings();
+                        using (var stream = ConfigFile.Open(FileMode.Create))
+                        {
+                            var xmlWritter = new XmlTextWriter(stream, Encoding.UTF8)
+                            {
+                                Formatting = Formatting.Indented,
+                                Indentation = 4
+                            };
+                            serializer.Serialize(xmlWritter, instance);
+                        }
+                    }
+                }
                 return instance;
             }
         }
@@ -42,20 +92,28 @@ namespace FixedBanditSpawning
         float WorkerGenderRatio { get; set; }
     }
 
-    class D225MiscFixesDefaultSettings : ID225MiscFixesSettings
+    [XmlRoot("D225MiscFixes", IsNullable = false)]
+    public class D225MiscFixesDefaultSettings : ID225MiscFixesSettings
     {
+        [XmlElement(DataType = "boolean")]
         public bool PatchBanditSpawning { get; set; } = true;
 
+        [XmlElement(DataType = "boolean")]
         public bool PatchAgentSpawning { get; set; } = true;
 
+        [XmlElement(DataType = "boolean")]
         public bool PatchInvincibleChildren { get; set; } = true;
 
+        [XmlElement(DataType = "boolean")]
         public bool PatchWandererSpawning { get; set; } = true;
 
+        [XmlElement(DataType = "int")]
         public int WanderSpawningRngMax { get; set; } = 32;
 
+        [XmlElement(DataType = "boolean")]
         public bool TownAndVillageVariety { get; set; } = true;
 
+        [XmlElement(DataType = "float")]
         public float WorkerGenderRatio { get; set; } = LocationCharacterConstructorPatch.WorkerGenderRatio;
     }
 
