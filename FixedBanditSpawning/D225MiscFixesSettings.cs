@@ -19,12 +19,12 @@ namespace FixedBanditSpawning
 
         private static FileInfo ConfigFile { get; } = new FileInfo(Path.Combine(BasePath.Name, "Modules", "D225.MiscFixes.config.xml"));
 
+        public static int ExceptionCount { get; internal set; }
+
         public static ID225MiscFixesSettings Instance
         {
             get
             {
-                //instance = D225MiscFixesSettings.Instance ?? instance ?? new D225MiscFixesDefaultSettings();
-
                 // attempt to load MCM config
                 try
                 {
@@ -32,8 +32,12 @@ namespace FixedBanditSpawning
                 }
                 catch (Exception e)
                 {
-                    Debug.Print(string.Format("[FixedBanditSpawning] Failed to obtain MCM config, defaulting to config file.",
-                        ConfigFile.FullName, e.Message, e.StackTrace));
+                    if (ExceptionCount < 100) // again, don't want to throw too many exceptions
+                    {
+                        ExceptionCount++;
+                        Debug.Print(string.Format("[FixedBanditSpawning] Failed to obtain MCM config, defaulting to config file.",
+                            ConfigFile.FullName, e.Message, e.StackTrace));
+                    }
                 }
 
                 // load config file if MCM config load fails
@@ -70,6 +74,13 @@ namespace FixedBanditSpawning
                 }
                 return instance;
             }
+        }
+
+        [CommandLineFunctionality.CommandLineArgumentFunction("reset_exception_count", "d225_misc")]
+        public static string ResetExceptionCount(List<string> strings)
+        {
+            ExceptionCount = 0;
+            return "Success";
         }
 
         public static int WandererRngMaxAge => Instance.WanderSpawningRngMax;
