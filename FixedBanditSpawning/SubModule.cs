@@ -36,7 +36,7 @@ namespace FixedBanditSpawning
                 float scale = agent.AgentScale;
                 AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
 
-                SkinGenerationParams skinParams = SubModule.GenerateSkinGenParams(agent);
+                SkinGenerationParams skinParams = GenerateSkinGenParams(agent);
                 agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue);
                 AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new object[] { scale });
                 AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
@@ -65,33 +65,34 @@ namespace FixedBanditSpawning
             return false;
         }
         
-        public static bool Prefix(MobileParty __instance, PartyTemplateObject pt, MobileParty.PartyTypeEnum partyType, int troopNumberLimit)
+        public static bool Prefix(MobileParty __instance, PartyTemplateObject pt, int troopNumberLimit)
         {
-            switch (partyType)
+            if (__instance.IsBandit) // TaleWorlds hardcoding strikes again
             {
-                case MobileParty.PartyTypeEnum.Bandit: // TaleWorlds hardcoding strikes again
-                    double num1 = 0.4 + 0.6 * MiscHelper.GetGameProcess();
-                    int num2 = MBRandom.RandomInt(2);
-                    double num3 = num2 == 0 ? MBRandom.RandomFloat : (MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat * 4.0);
-                    double num4 = num2 == 0 ? (num3 * 0.8 + 0.2) : 1 + num3;
+                double num1 = 0.4 + 0.8 * MiscHelper.GetGameProcess();
+                int num2 = MBRandom.RandomInt(2);
+                double num3 = num2 == 0 ? MBRandom.RandomFloat : (MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat * 4.0);
+                double num4 = num2 == 0 ? (num3 * 0.8 + 0.2) : 1 + num3;
 
-                    foreach (PartyTemplateStack stack in pt.Stacks)
-                    {
-                        int numTroopsToAdd = MBRandom.RoundRandomized((float) (stack.MinValue + num1 * num4 * MBRandom.RandomFloat * (stack.MaxValue - stack.MinValue)));
-                        __instance.AddElementToMemberRoster(stack.Character, numTroopsToAdd);
-                    }
-                    return false;
-                case MobileParty.PartyTypeEnum.Villager: // ... and again
-                    int index = MBRandom.RandomInt(pt.Stacks.Count);
-                    for (int troopCount = 0; troopCount < troopNumberLimit; troopCount++)
-                    {
-                        __instance.AddElementToMemberRoster(pt.Stacks[index].Character, 1);
-                        index = MBRandom.RandomInt(pt.Stacks.Count);
-                    }
-                    return false;
-                default: // everything else looks fine; hand stack filling to original method
-                    return true;
+                foreach (PartyTemplateStack stack in pt.Stacks)
+                {
+                    int numTroopsToAdd = MBRandom.RoundRandomized((float)(stack.MinValue + num1 * num4 * MBRandom.RandomFloat * (stack.MaxValue - stack.MinValue)));
+                    __instance.AddElementToMemberRoster(stack.Character, numTroopsToAdd);
+                }
             }
+            else if (__instance.IsVillager)
+            {
+                int index = MBRandom.RandomInt(pt.Stacks.Count);
+                for (int troopCount = 0; troopCount < troopNumberLimit; troopCount++)
+                {
+                    __instance.AddElementToMemberRoster(pt.Stacks[index].Character, 1);
+                    index = MBRandom.RandomInt(pt.Stacks.Count);
+                }
+            }
+            else // everything else looks fine; hand stack filling to original method
+                return true;
+
+            return false;
         }
     }
 
@@ -192,9 +193,9 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 7)
                 {
-                    if (codes[i].opcode == OpCodes.Br_S && codes[i].operand is Label)
+                    if (codes[i].opcode == OpCodes.Br_S && codes[i].operand is Label label)
                     {
-                        jumpLabel = (Label)(codes[i].operand);
+                        jumpLabel = label;
                         break;
                     }
                     else
@@ -279,11 +280,8 @@ namespace FixedBanditSpawning
             {
                 if (codes[j].opcode == OpCodes.Ldarg_0)
                 {
-                    if (stage0 == 0)
-                    {
-                        stage0 = 1;
-                    }
-                    else if (stage0 == 1)
+                    stage0++;
+                    if (stage0 == 2)
                     {
                         codes[j] = new CodeInstruction(OpCodes.Nop);
                         codes[j + 1] = new CodeInstruction(OpCodes.Nop);
@@ -319,9 +317,9 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 2)
                 {
-                    if (codes[i].opcode == OpCodes.Bge_S && codes[i].operand is Label)
+                    if (codes[i].opcode == OpCodes.Bge_S && codes[i].operand is Label label)
                     {
-                        jumpLabel = (Label)codes[i].operand;
+                        jumpLabel = label;
                         break;
                     }
                     else

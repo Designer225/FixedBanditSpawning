@@ -47,14 +47,14 @@ namespace FixedBanditSpawning
                         || character == culture.Musician || character == culture.Armorer || character == culture.Blacksmith || character == culture.HorseMerchant
                         || character == culture.Merchant || character == culture.Weaponsmith || character == culture.GangleaderBodyguard)
                     {
-                        randMin = TweenAge;
+                        randMin = TeenAge;
                         randMax = ageModel.BecomeOldAge;
                         agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
                     else if (character == culture.ArtisanNotary || character == culture.MerchantNotary || character == culture.PreacherNotary
                         || character == culture.RuralNotableNotary || character == culture.RansomBroker)
                     {
-                        randMin = TweenAge;
+                        randMin = AdultAge;
                         randMax = ageModel.MaxAge;
                         agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
