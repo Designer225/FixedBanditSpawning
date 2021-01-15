@@ -280,7 +280,6 @@ namespace FixedBanditSpawning
             {
                 if (codes[j].opcode == OpCodes.Ldarg_0)
                 {
-                    stage0++;
                     if (stage0 == 2)
                     {
                         codes[j] = new CodeInstruction(OpCodes.Nop);
@@ -290,6 +289,7 @@ namespace FixedBanditSpawning
                         Debug.Print("[FixedBanditSpawning] Age checker 1 in HeroCreator.CreateNewHero() bypassed :)");
                         break;
                     }
+                    stage0++;
                 }
             }
 
