@@ -280,7 +280,7 @@ namespace FixedBanditSpawning
             {
                 if (codes[j].opcode == OpCodes.Ldarg_0)
                 {
-                    if (stage0 == 2)
+                    if (stage0 == 3)
                     {
                         codes[j] = new CodeInstruction(OpCodes.Nop);
                         codes[j + 1] = new CodeInstruction(OpCodes.Nop);
