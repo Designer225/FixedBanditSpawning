@@ -16,6 +16,8 @@ namespace FixedBanditSpawning
             PatchAgentSpawningHint = "{=D225MiscFixes_PatchAgentSpawningHint}Enable this to bypass age check that makes underage agents look adult-ish. Disable if another mod also does this.",
             PatchInvincibleChildrenName = "{=D225MiscFixes_PatchInvincibleChildrenName}Patch Invincible Children",
             PatchInvincibleChildrenHint = "{=D225MiscFixes_PatchInvincibleChildrenHint}Enable this to make children less overpowered. Disable if another mod also does this.",
+            PatchSavePreviewGenderBugName = "{=D225MiscFixes_PatchSavePreviewGenderBugName}Fix Incorrect Save Preview",
+            PatchSavePreviewGenderBugHint = "{=D225MiscFixes_PatchSavePreviewGenderBugHint}Enable this to fix heroes in save preview having incorrect morphs for certain edge cases. Disable if another mod also does this.",
             PatchWandererSpawningName = "{=D225MiscFixes_PatchWandererSpawningName}Patch Wander Spawning",
             PatchWandererSpawningHint = "{=D225MiscFixes_PatchWandererSpawningHint}Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this.",
             WanderSpawningRngMaxName = "{=D225MiscFixes_WanderSpawningRngMaxName}Wanderer Max RNG Age Increase",

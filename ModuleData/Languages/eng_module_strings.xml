@@ -12,6 +12,8 @@
     <string id="D225MiscFixes_PatchAgentSpawningHint" text="Enable this to bypass age check that makes underage agents look adult-ish. Disable if another mod also does this."/>
     <string id="D225MiscFixes_PatchInvincibleChildrenName" text="Patch Invincible Children"/>
     <string id="D225MiscFixes_PatchInvincibleChildrenHint" text="Enable this to make children less overpowered. Disable if another mod also does this."/>
+    <string id="D225MiscFixes_PatchSavePreviewGenderBugName" text="Fix Incorrect Save Preview"/>
+    <string id="D225MiscFixes_PatchSavePreviewGenderBugHint" text="Enable this to fix heroes in save preview having incorrect morphs for certain edge cases. Disable if another mod also does this."/>
     <string id="D225MiscFixes_PatchWandererSpawningName" text="Patch Wander Spawning"/>
     <string id="D225MiscFixes_PatchWandererSpawningHint" text="Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this."/>
     <string id="D225MiscFixes_WanderSpawningRngMaxName" text="Wanderer Max RNG Age Increase"/>

@@ -13,6 +13,7 @@ using Helpers;
 using HarmonyLib;
 using System.Reflection.Emit;
 using System.Reflection;
+using TaleWorlds.MountAndBlade.View;
 
 namespace FixedBanditSpawning
 {
@@ -371,6 +372,62 @@ namespace FixedBanditSpawning
             }
 
             return codes.AsEnumerable();
+        }
+    }
+
+    [HarmonyPatch(typeof(BasicCharacterTableau), "InitializeAgentVisuals")]
+    static class InitializeAgentVisualsTranspiler
+    {
+        private static readonly List<string> incompatibleInstances = new List<string>
+        {
+            "mod.bannerlord.popowanobi.dcc"
+        };
+
+        public static bool Prepare(MethodBase original)
+        {
+            if (D225MiscFixesSettingsUtil.Instance.PatchSavePreviewGenderBug)
+            {
+                if (original == null) return true;
+                var info = Harmony.GetPatchInfo(original);
+                if (info != default && info.Transpilers.Select(x => x.owner).Intersect(incompatibleInstances).IsEmpty())
+                {
+                    Debug.Print("[FixedBanditSpawning] Preparing to patch incorrect save preview stuff");
+                    return true;
+                }
+                Debug.Print("[FixedBanditSpawning] Patch to fix misgendered character rendering already exists, skipping");
+            }
+            return false;
+        }
+
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var code = instructions.ToList();
+
+            // locate call to MBAgentVisuals function and work backwards
+            int i;
+            for (i = 0; i < code.Count; i++)
+            {
+                if (code[i].opcode == OpCodes.Call && code[i].operand is MethodInfo
+                    && code[i].operand as MethodInfo == AccessTools.Method(typeof(MBAgentVisuals), nameof(MBAgentVisuals.FillEntityWithBodyMeshesWithoutAgentVisuals)))
+                    break;
+            }
+
+            if (i < code.Count)
+            {
+                for (; i >= 0; i--)
+                {
+                    if (code[i].opcode == OpCodes.Ldloc_2)
+                    {
+                        // replace current instruction
+                        code[i] = new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(BasicCharacterTableau), "_isFemale"));
+                        // insert ahead this
+                        code.Insert(i, new CodeInstruction(OpCodes.Ldarg_0)); // instance methods use ldarg_0 as this
+                        break;
+                    }
+                }
+            }
+
+            return code.AsEnumerable();
         }
     }
 }

@@ -58,18 +58,15 @@ namespace FixedBanditSpawning
                         }
                     }
 
-                    if (instance == default)
+                    if (instance == default) instance = new D225MiscFixesDefaultSettings();
+                    using (var stream = ConfigFile.Open(FileMode.Create))
                     {
-                        instance = new D225MiscFixesDefaultSettings();
-                        using (var stream = ConfigFile.Open(FileMode.Create))
+                        var xmlWritter = new XmlTextWriter(stream, Encoding.UTF8)
                         {
-                            var xmlWritter = new XmlTextWriter(stream, Encoding.UTF8)
-                            {
-                                Formatting = Formatting.Indented,
-                                Indentation = 4
-                            };
-                            serializer.Serialize(xmlWritter, instance);
-                        }
+                            Formatting = Formatting.Indented,
+                            Indentation = 4
+                        };
+                        serializer.Serialize(xmlWritter, instance);
                     }
                 }
                 return instance;
@@ -94,6 +91,8 @@ namespace FixedBanditSpawning
 
         bool PatchInvincibleChildren { get; set; }
 
+        bool PatchSavePreviewGenderBug { get; set; }
+
         bool PatchWandererSpawning { get; set; }
 
         int WanderSpawningRngMax { get; set; }
@@ -114,6 +113,9 @@ namespace FixedBanditSpawning
 
         [XmlElement(DataType = "boolean")]
         public bool PatchInvincibleChildren { get; set; } = true;
+
+        [XmlElement(DataType = "boolean")]
+        public bool PatchSavePreviewGenderBug { get; set; } = true;
 
         [XmlElement(DataType = "boolean")]
         public bool PatchWandererSpawning { get; set; } = true;
@@ -150,19 +152,23 @@ namespace FixedBanditSpawning
         [SettingPropertyGroup(ModNameText)]
         public bool PatchInvincibleChildren { get; set; } = true;
 
-        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, Order = 3, RequireRestart = true)]
+        [SettingPropertyBool(PatchSavePreviewGenderBugName, HintText = PatchSavePreviewGenderBugHint, Order = 3, RequireRestart = true)]
+        [SettingPropertyGroup(ModNameText)]
+        public bool PatchSavePreviewGenderBug { get; set; } = true;
+
+        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, Order = 4, RequireRestart = true)]
         [SettingPropertyGroup(PatchWandererSpawningName, GroupOrder = 1)]
         public bool PatchWandererSpawning { get; set; } = true;
 
-        [SettingPropertyInteger(WanderSpawningRngMaxName, 0, 50, HintText = WanderSpawningRngMaxHint, Order = 4, RequireRestart = false)]
+        [SettingPropertyInteger(WanderSpawningRngMaxName, 0, 50, HintText = WanderSpawningRngMaxHint, Order = 5, RequireRestart = false)]
         [SettingPropertyGroup(PatchWandererSpawningName)]
         public int WanderSpawningRngMax { get; set; } = 32;
 
-        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, IsToggle = true, Order = 5, RequireRestart = true)]
+        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, IsToggle = true, Order = 6, RequireRestart = true)]
         [SettingPropertyGroup(TownAndVillageVarietyName, GroupOrder = 2)]
         public bool TownAndVillageVariety { get; set; } = true;
 
-        [SettingPropertyFloatingInteger(WorkerGenderRatioName, 0, 1, HintText = WorkerGenderRatioHint, Order = 6, RequireRestart = false)]
+        [SettingPropertyFloatingInteger(WorkerGenderRatioName, 0, 1, HintText = WorkerGenderRatioHint, Order = 7, RequireRestart = false)]
         [SettingPropertyGroup(TownAndVillageVarietyName)]
         public float WorkerGenderRatio { get; set; } = LocationCharacterConstructorPatch.WorkerGenderRatio;
     }
