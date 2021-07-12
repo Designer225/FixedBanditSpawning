@@ -430,4 +430,23 @@ namespace FixedBanditSpawning
             return code.AsEnumerable();
         }
     }
+
+    [HarmonyPatch(typeof(Agent), "OnWeaponReloadPhaseChange")]
+    static class OnWeaponReloadPhaseChangePatch
+    {
+        public static bool Prepare()
+        {
+            if (D225MiscFixesSettingsUtil.Instance.FixMachineGunCrosshair)
+            {
+                Debug.Print("[FixedBanditSpawning] Fixing crossbow crosshairs");
+                return true;
+            }
+            return false;
+        }
+
+        public static void Prefix(Agent __instance, EquipmentIndex slotIndex, ref short reloadPhase)
+        {
+            if (__instance.Equipment[slotIndex].Ammo > 0) reloadPhase = 2;
+        }
+    }
 }

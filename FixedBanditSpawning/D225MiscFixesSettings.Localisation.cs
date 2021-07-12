@@ -18,6 +18,8 @@ namespace FixedBanditSpawning
             PatchInvincibleChildrenHint = "{=D225MiscFixes_PatchInvincibleChildrenHint}Enable this to make children less overpowered. Disable if another mod also does this.",
             PatchSavePreviewGenderBugName = "{=D225MiscFixes_PatchSavePreviewGenderBugName}Fix Incorrect Save Preview",
             PatchSavePreviewGenderBugHint = "{=D225MiscFixes_PatchSavePreviewGenderBugHint}Enable this to fix heroes in save preview having incorrect morphs for certain edge cases. Disable if another mod also does this.",
+            FixMachineGunCrosshairName = "{=D225MiscFixes_FixMachineGunCrosshairName}Fix Machine Gun/Multi-Round Crossbow Crosshair",
+            FixMachineGunCrosshairHint = "{=D225MiscFixes_FixMachineGunCrosshairHint}Enable to fix crosshair disappearing when there are still rounds in a 'crossbow' (machine gun?). Disable if another mod also does this.",
             PatchWandererSpawningName = "{=D225MiscFixes_PatchWandererSpawningName}Patch Wander Spawning",
             PatchWandererSpawningHint = "{=D225MiscFixes_PatchWandererSpawningHint}Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this.",
             WanderSpawningRngMaxName = "{=D225MiscFixes_WanderSpawningRngMaxName}Wanderer Max RNG Age Increase",

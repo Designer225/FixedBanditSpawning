@@ -93,6 +93,8 @@ namespace FixedBanditSpawning
 
         bool PatchSavePreviewGenderBug { get; set; }
 
+        bool FixMachineGunCrosshair { get; set; }
+
         bool PatchWandererSpawning { get; set; }
 
         int WanderSpawningRngMax { get; set; }
@@ -116,6 +118,9 @@ namespace FixedBanditSpawning
 
         [XmlElement(DataType = "boolean")]
         public bool PatchSavePreviewGenderBug { get; set; } = true;
+
+        [XmlElement(DataType = "boolean")]
+        public bool FixMachineGunCrosshair { get; set; } = true;
 
         [XmlElement(DataType = "boolean")]
         public bool PatchWandererSpawning { get; set; } = true;
@@ -156,19 +161,23 @@ namespace FixedBanditSpawning
         [SettingPropertyGroup(ModNameText)]
         public bool PatchSavePreviewGenderBug { get; set; } = true;
 
-        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, Order = 4, RequireRestart = true)]
+        [SettingPropertyBool(FixMachineGunCrosshairName, HintText = FixMachineGunCrosshairHint, Order = 4, RequireRestart = true)]
+        [SettingPropertyGroup(ModNameText)]
+        public bool FixMachineGunCrosshair { get; set; } = true;
+
+        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, Order = 5, RequireRestart = true)]
         [SettingPropertyGroup(PatchWandererSpawningName, GroupOrder = 1)]
         public bool PatchWandererSpawning { get; set; } = true;
 
-        [SettingPropertyInteger(WanderSpawningRngMaxName, 0, 50, HintText = WanderSpawningRngMaxHint, Order = 5, RequireRestart = false)]
+        [SettingPropertyInteger(WanderSpawningRngMaxName, 0, 50, HintText = WanderSpawningRngMaxHint, Order = 6, RequireRestart = false)]
         [SettingPropertyGroup(PatchWandererSpawningName)]
         public int WanderSpawningRngMax { get; set; } = 32;
 
-        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, IsToggle = true, Order = 6, RequireRestart = true)]
+        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, IsToggle = true, Order = 7, RequireRestart = true)]
         [SettingPropertyGroup(TownAndVillageVarietyName, GroupOrder = 2)]
         public bool TownAndVillageVariety { get; set; } = true;
 
-        [SettingPropertyFloatingInteger(WorkerGenderRatioName, 0, 1, HintText = WorkerGenderRatioHint, Order = 7, RequireRestart = false)]
+        [SettingPropertyFloatingInteger(WorkerGenderRatioName, 0, 1, HintText = WorkerGenderRatioHint, Order = 8, RequireRestart = false)]
         [SettingPropertyGroup(TownAndVillageVarietyName)]
         public float WorkerGenderRatio { get; set; } = LocationCharacterConstructorPatch.WorkerGenderRatio;
     }
