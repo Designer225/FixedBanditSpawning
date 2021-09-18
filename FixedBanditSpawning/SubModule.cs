@@ -35,12 +35,14 @@ namespace FixedBanditSpawning
             {
                 float age = agent.Age;
                 float scale = agent.AgentScale;
-                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
+                agent.Age = 18f;
+                //AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
 
                 SkinGenerationParams skinParams = GenerateSkinGenParams(agent);
                 agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue, agent.Character != null && agent.Character.FaceMeshCache);
                 AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new object[] { scale });
-                AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
+                //AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
+                agent.Age = age;
             }
         }
 
