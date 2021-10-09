@@ -153,13 +153,14 @@ namespace FixedBanditSpawning
 
         public static void Postfix(ref Hero __result)
         {
+            var faction = __result.MapFaction;
             // It appears that gang leaders, merchants, and preachers have some female representation. Will skip them in that case.
-            if ((__result.IsArtisan || __result.IsRuralNotable || __result.IsHeadman || __result.IsOutlaw) && !__result.IsFemale)
+            if ((__result.IsArtisan || __result.IsRuralNotable || __result.IsHeadman) && !__result.IsFemale)
                 __result.UpdatePlayerGender(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
 
             AgeModel ageModel = Campaign.Current.Models.AgeModel;
             int baseAge = Math.Max(ageModel.HeroComesOfAge, LocationCharacterConstructorPatch.TweenAge);
-            if (__result.IsNotable || __result.IsOutlaw)
+            if (__result.IsNotable)
                 __result.SetBirthDay(HeroHelper.GetRandomBirthDayForAge(
                     MathF.Lerp(baseAge, ageModel.MaxAge, (__result.Age - ageModel.HeroComesOfAge) / (ageModel.MaxAge - ageModel.HeroComesOfAge))));
         }
