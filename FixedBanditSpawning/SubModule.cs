@@ -171,8 +171,8 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 5)
                 {
-                    if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand is MethodInfo
-                        && codes[i].operand as MethodInfo == AccessTools.Method(typeof(AgentBuildData), nameof(AgentBuildData.Age)))
+                    if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand is MethodInfo method
+                        && method == AccessTools.Method(typeof(AgentBuildData), nameof(AgentBuildData.Age)))
                     {
                         stage = 6;
                     }
@@ -362,7 +362,7 @@ namespace FixedBanditSpawning
             for (int i = 0; i < codes.Count; i++)
             {
                 if (codes[i].opcode == OpCodes.Callvirt
-                    && codes[i].operand is MethodInfo && codes[i].operand as MethodInfo == AccessTools.PropertyGetter(typeof(AgeModel), nameof(AgeModel.HeroComesOfAge)))
+                    && codes[i].operand is MethodInfo method && method == AccessTools.PropertyGetter(typeof(AgeModel), nameof(AgeModel.HeroComesOfAge)))
                 {
                     codes[i + 1] = new CodeInstruction(OpCodes.Nop);
                     codes[i + 2] = new CodeInstruction(OpCodes.Nop);
@@ -377,7 +377,7 @@ namespace FixedBanditSpawning
         }
     }
 
-    [HarmonyPatch(typeof(BasicCharacterTableau), "InitializeAgentVisuals")]
+    [HarmonyPatch(typeof(BasicCharacterTableau), "RefreshCharacterTableau")]
     static class InitializeAgentVisualsTranspiler
     {
         private static readonly List<string> incompatibleInstances = new List<string>
@@ -391,7 +391,7 @@ namespace FixedBanditSpawning
             {
                 if (original == null) return true;
                 var info = Harmony.GetPatchInfo(original);
-                if (info != default && info.Transpilers.Select(x => x.owner).Intersect(incompatibleInstances).IsEmpty())
+                if (info == default || info.Transpilers.Select(x => x.owner).Intersect(incompatibleInstances).IsEmpty())
                 {
                     Debug.Print("[FixedBanditSpawning] Preparing to patch incorrect save preview stuff");
                     return true;
@@ -403,14 +403,15 @@ namespace FixedBanditSpawning
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
+            Debug.Print("[FixedBanditSpawning] Attempting to fix save preview misgendering");
             var code = instructions.ToList();
 
             // locate call to MBAgentVisuals function and work backwards
             int i;
             for (i = 0; i < code.Count; i++)
             {
-                if (code[i].opcode == OpCodes.Call && code[i].operand is MethodInfo
-                    && code[i].operand as MethodInfo == AccessTools.Method(typeof(MBAgentVisuals), nameof(MBAgentVisuals.FillEntityWithBodyMeshesWithoutAgentVisuals)))
+                if (code[i].opcode == OpCodes.Call && code[i].operand is MethodInfo method
+                    && method == AccessTools.Method(typeof(MBAgentVisuals), nameof(MBAgentVisuals.FillEntityWithBodyMeshesWithoutAgentVisuals)))
                     break;
             }
 
@@ -418,12 +419,13 @@ namespace FixedBanditSpawning
             {
                 for (; i >= 0; i--)
                 {
-                    if (code[i].opcode == OpCodes.Ldloc_2)
+                    if (code[i].opcode == OpCodes.Ldloc_S && code[i].operand is LocalBuilder lb && lb.LocalIndex == 5)
                     {
                         // replace current instruction
                         code[i] = new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(BasicCharacterTableau), "_isFemale"));
                         // insert ahead this
                         code.Insert(i, new CodeInstruction(OpCodes.Ldarg_0)); // instance methods use ldarg_0 as this
+                        Debug.Print("[FixedBanditSpawning] Save preview misgendering fixed");
                         break;
                     }
                 }
