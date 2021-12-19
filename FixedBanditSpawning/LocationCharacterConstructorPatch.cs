@@ -156,7 +156,11 @@ namespace FixedBanditSpawning
             var faction = __result.MapFaction;
             // It appears that gang leaders, merchants, and preachers have some female representation. Will skip them in that case.
             if ((__result.IsArtisan || __result.IsRuralNotable || __result.IsHeadman) && !__result.IsFemale)
+            {
                 __result.UpdatePlayerGender(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
+                __result.SetName(null, NameGenerator.Current.GenerateHeroFirstName(__result, false));
+                __result.SetName(NameGenerator.Current.GenerateHeroFullName(__result, false));
+            }
 
             AgeModel ageModel = Campaign.Current.Models.AgeModel;
             int baseAge = Math.Max(ageModel.HeroComesOfAge, LocationCharacterConstructorPatch.TweenAge);
