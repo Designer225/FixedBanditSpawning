@@ -158,8 +158,8 @@ namespace FixedBanditSpawning
             if ((__result.IsArtisan || __result.IsRuralNotable || __result.IsHeadman) && !__result.IsFemale)
             {
                 __result.UpdatePlayerGender(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
-                __result.SetName(null, NameGenerator.Current.GenerateHeroFirstName(__result, false));
-                __result.SetName(NameGenerator.Current.GenerateHeroFullName(__result, false));
+                NameGenerator.Current.GenerateHeroNameAndHeroFullName(__result, out var firstName, out var fullName);
+                __result.SetName(fullName, firstName);
             }
 
             AgeModel ageModel = Campaign.Current.Models.AgeModel;

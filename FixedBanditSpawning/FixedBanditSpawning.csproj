@@ -55,8 +55,8 @@
     <Reference Include="0Harmony, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Lib.Harmony.2.1.1\lib\net48\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="MCMv4, Version=4.3.15.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Bannerlord.MCM.4.3.15\lib\net472\MCMv4.dll</HintPath>
+    <Reference Include="MCMv4, Version=4.3.17.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Bannerlord.MCM.4.3.17\lib\net472\MCMv4.dll</HintPath>
     </Reference>
     <Reference Include="SandBox">
       <HintPath>..\..\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
