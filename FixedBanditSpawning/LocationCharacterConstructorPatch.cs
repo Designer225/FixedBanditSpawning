@@ -140,9 +140,8 @@ namespace FixedBanditSpawning
         }
     }
 
-    // Yes, there is already a patch on the same method. No, they do not do the same thing.
-    [HarmonyPatch(typeof(HeroCreator), "CreateNewHero")]
-    static class CreateNewHero_NotablesPatch
+    [HarmonyPatch(typeof(HeroCreator), nameof(HeroCreator.CreateSpecialHero))]
+    static class CreateSpecialHeroPatch
     {
         public static bool Prepare()
         {
@@ -153,12 +152,12 @@ namespace FixedBanditSpawning
 
         public static void Postfix(ref Hero __result)
         {
-            var faction = __result.MapFaction;
+            //var faction = __result.MapFaction;
             // It appears that gang leaders, merchants, and preachers have some female representation. Will skip them in that case.
             if ((__result.IsArtisan || __result.IsRuralNotable || __result.IsHeadman) && !__result.IsFemale)
             {
                 __result.UpdatePlayerGender(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
-                NameGenerator.Current.GenerateHeroNameAndHeroFullName(__result, out var firstName, out var fullName);
+                NameGenerator.Current.GenerateHeroNameAndHeroFullName(__result, out var firstName, out var fullName, false);
                 __result.SetName(fullName, firstName);
             }
 
