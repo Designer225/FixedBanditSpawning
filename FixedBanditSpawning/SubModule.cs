@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.SandBox.CampaignBehaviors;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -14,6 +13,9 @@ using HarmonyLib;
 using System.Reflection.Emit;
 using System.Reflection;
 using TaleWorlds.MountAndBlade.View;
+using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
+using TaleWorlds.CampaignSystem.CampaignBehaviors;
 
 namespace FixedBanditSpawning
 {
@@ -39,7 +41,7 @@ namespace FixedBanditSpawning
                 //AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { 18f });
 
                 SkinGenerationParams skinParams = GenerateSkinGenParams(agent);
-                agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue, agent.Character != null && agent.Character.FaceMeshCache);
+                agent.AgentVisuals.AddSkinMeshes(skinParams, agent.BodyPropertiesValue, true, agent.Character != null && agent.Character.FaceMeshCache);
                 AccessTools.Method(typeof(Agent), "SetInitialAgentScale").Invoke(agent, new object[] { scale });
                 //AccessTools.PropertySetter(typeof(Agent), nameof(Agent.Age)).Invoke(agent, new object[] { age });
                 agent.Age = age;
@@ -343,7 +345,7 @@ namespace FixedBanditSpawning
         }
     }
 
-    [HarmonyPatch(typeof(UrbanCharactersCampaignBehavior), "CreateCompanion")]
+    [HarmonyPatch(typeof(CompanionsCampaignBehavior), "CreateCompanionAndAddToSettlement")]
     public static class UrbanCharactersCampaignBehavior_CreateCompanion_Patch
     {
         public static bool Prepare()

@@ -1,10 +1,11 @@
 ﻿using HarmonyLib;
 using Helpers;
-using SandBox.Source.Towns;
+using SandBox.CampaignBehaviors;
 using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.SandBox;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
+using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
