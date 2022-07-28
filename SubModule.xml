@@ -1,7 +1,7 @@
 <Module>
   <Name value="Designer225's Miscellaneous Fixes"/>
   <Id value="FixedBanditSpawning"/>
-  <Version value="v1.1.12.10"/>
+  <Version value="v1.1.13.37"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false"/>

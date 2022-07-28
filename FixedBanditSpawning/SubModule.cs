@@ -16,6 +16,7 @@ using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
+using TaleWorlds.MountAndBlade.View.Tableaus;
 
 namespace FixedBanditSpawning
 {
@@ -52,7 +53,8 @@ namespace FixedBanditSpawning
         {
             return new SkinGenerationParams((int)SkinMask.NoneVisible, agent.SpawnEquipment.GetUnderwearType(agent.IsFemale && agent.Age >= 14),
                     (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType, (int)agent.SpawnEquipment.BeardCoverType,
-                    (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, false, false);
+                    (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main, agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0,
+                    agent.Character.Race, false, false);
         }
     }
 
@@ -74,7 +76,7 @@ namespace FixedBanditSpawning
         {
             if (__instance.IsBandit) // TaleWorlds hardcoding strikes again
             {
-                double num1 = 0.4 + 0.8 * MiscHelper.GetGameProcess();
+                double num1 = 0.4 + 0.8 * Campaign.Current.PlayerProgress;
                 int num2 = MBRandom.RandomInt(2);
                 double num3 = num2 == 0 ? MBRandom.RandomFloat : (MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat * 4.0);
                 double num4 = num2 == 0 ? (num3 * 0.8 + 0.2) : 1 + num3;
@@ -280,21 +282,17 @@ namespace FixedBanditSpawning
             Debug.Print("[FixedBanditSpawning] Attempting to bypass 2 age checkers in HeroCreator.CreateNewHero()");
             var codes = instructions.ToList();
 
-            int stage0 = 0;
-            for (int j = 0; j < codes.Count; j++)
+            for (int j = 0; j < codes.Count - 3; j++)
             {
-                if (codes[j].opcode == OpCodes.Ldarg_0)
+                if (codes[j].opcode == OpCodes.Ldarg_0 && codes[j+1].opcode == OpCodes.Callvirt
+                    && codes[j+2].opcode == OpCodes.Conv_I4 && codes[j+3].opcode == OpCodes.Starg_S)
                 {
-                    if (stage0 == 3)
-                    {
-                        codes[j] = new CodeInstruction(OpCodes.Nop);
-                        codes[j + 1] = new CodeInstruction(OpCodes.Nop);
-                        codes[j + 2] = new CodeInstruction(OpCodes.Nop);
-                        codes[j + 3] = new CodeInstruction(OpCodes.Nop);
-                        Debug.Print("[FixedBanditSpawning] Age checker 1 in HeroCreator.CreateNewHero() bypassed :)");
-                        break;
-                    }
-                    stage0++;
+                    codes[j] = new CodeInstruction(OpCodes.Nop);
+                    codes[j + 1] = new CodeInstruction(OpCodes.Nop);
+                    codes[j + 2] = new CodeInstruction(OpCodes.Nop);
+                    codes[j + 3] = new CodeInstruction(OpCodes.Nop);
+                    Debug.Print("[FixedBanditSpawning] Age checker 1 in HeroCreator.CreateNewHero() bypassed :)");
+                    break;
                 }
             }
 
