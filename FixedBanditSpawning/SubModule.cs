@@ -120,7 +120,6 @@ namespace FixedBanditSpawning
             var codes = instructions.ToList();
 
             int stage = 0;
-            bool oldVersion = false;
             int replaceIndex = -1;
             Label jumpLabel = default;
             for (int i = 0; i < codes.Count; i++)
@@ -131,15 +130,18 @@ namespace FixedBanditSpawning
                 }
                 else if (stage == 1)
                 {
-                    stage = 2;
                     if (codes[i].opcode != OpCodes.Ldc_R4)
                     {
-                        oldVersion = true;
+                        stage = 2;
+                    }
+                    else
+                    {
+                        stage = 0;
                     }
                 }
                 else if (stage == 2)
                 {
-                    if ((codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label) || (oldVersion && codes[i].opcode == OpCodes.Brtrue_S && codes[i].operand is Label))
+                    if (codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label)
                     {
                         stage = 3;
                         replaceIndex = i;

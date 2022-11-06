@@ -5,7 +5,7 @@
     <Product>FixedBanditSpawning</Product>
     <Copyright>Copyright ©  2020</Copyright>
     <AssemblyVersion>1.1.14.55</AssemblyVersion>
-    <FileVersion>1.1.14.55</FileVersion>
+    <FileVersion>1.1.13.37</FileVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <PostBuildEvent />

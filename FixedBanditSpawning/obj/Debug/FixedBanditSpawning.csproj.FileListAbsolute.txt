@@ -31,3 +31,14 @@ D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBandit
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\MCMv3.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\MCMv3.Implementation.v3.1.4.dll
 D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\MCMv3.UI.v3.1.4.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\FixedBanditSpawning.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\FixedBanditSpawning.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\0Harmony.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\MCMv4.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\0Harmony.xml
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\MCMv4.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.pdb
