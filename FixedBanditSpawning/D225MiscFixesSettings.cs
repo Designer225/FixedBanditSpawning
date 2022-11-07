@@ -83,6 +83,8 @@ namespace FixedBanditSpawning
 
     interface ID225MiscFixesSettings
     {
+        bool PatchEncyclopediaEntry { get; set; }
+
         bool PatchBanditSpawning { get; set; }
 
         bool PatchAgentSpawning { get; set; }
@@ -105,6 +107,9 @@ namespace FixedBanditSpawning
     [XmlRoot("D225MiscFixes", IsNullable = false)]
     public class D225MiscFixesDefaultSettings : ID225MiscFixesSettings
     {
+        [XmlElement(DataType = "boolean")]
+        public bool PatchEncyclopediaEntry { get; set; } = true;
+
         [XmlElement(DataType = "boolean")]
         public bool PatchBanditSpawning { get; set; } = true;
 
@@ -143,40 +148,50 @@ namespace FixedBanditSpawning
 
         public override string DisplayName => ModNameTextObject.ToString();
 
-        [SettingPropertyBool(PatchBanditSpawningName, HintText = PatchBanditSpawningHint, Order = 0, RequireRestart = true)]
-        [SettingPropertyGroup(ModNameText, GroupOrder = 0)]
+        #region Patches
+        [SettingPropertyBool(PatchEncyclopediaEntryName, HintText = PatchEncyclopediaEntryHint, Order = 0, RequireRestart = true)]
+        [SettingPropertyGroup(ModNameText)]
+        public bool PatchEncyclopediaEntry { get; set; } = true;
+
+        [SettingPropertyBool(PatchBanditSpawningName, HintText = PatchBanditSpawningHint, Order = 1, RequireRestart = true)]
+        [SettingPropertyGroup(ModNameText)]
         public bool PatchBanditSpawning { get; set; } = true;
 
-        [SettingPropertyBool(PatchAgentSpawningName, HintText = PatchAgentSpawningHint, Order = 1, RequireRestart = true)]
+        [SettingPropertyBool(PatchAgentSpawningName, HintText = PatchAgentSpawningHint, Order = 2, RequireRestart = true)]
         [SettingPropertyGroup(ModNameText)]
         public bool PatchAgentSpawning { get; set; } = true;
 
-        [SettingPropertyBool(PatchInvincibleChildrenName, HintText = PatchInvincibleChildrenHint, Order = 2, RequireRestart = true)]
+        [SettingPropertyBool(PatchInvincibleChildrenName, HintText = PatchInvincibleChildrenHint, Order = 3, RequireRestart = true)]
         [SettingPropertyGroup(ModNameText)]
         public bool PatchInvincibleChildren { get; set; } = true;
 
-        [SettingPropertyBool(PatchSavePreviewGenderBugName, HintText = PatchSavePreviewGenderBugHint, Order = 3, RequireRestart = true)]
+        [SettingPropertyBool(PatchSavePreviewGenderBugName, HintText = PatchSavePreviewGenderBugHint, Order = 4, RequireRestart = true)]
         [SettingPropertyGroup(ModNameText)]
         public bool PatchSavePreviewGenderBug { get; set; } = true;
 
-        [SettingPropertyBool(FixMachineGunCrosshairName, HintText = FixMachineGunCrosshairHint, Order = 4, RequireRestart = true)]
+        [SettingPropertyBool(FixMachineGunCrosshairName, HintText = FixMachineGunCrosshairHint, Order = 5, RequireRestart = true)]
         [SettingPropertyGroup(ModNameText)]
         public bool FixMachineGunCrosshair { get; set; } = true;
+        #endregion
 
-        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, Order = 5, RequireRestart = true)]
+        #region Wanderer Spawning
+        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, RequireRestart = true)]
         [SettingPropertyGroup(PatchWandererSpawningName, GroupOrder = 1)]
         public bool PatchWandererSpawning { get; set; } = true;
 
-        [SettingPropertyInteger(WanderSpawningRngMaxName, 0, 50, HintText = WanderSpawningRngMaxHint, Order = 6, RequireRestart = false)]
+        [SettingPropertyInteger(WanderSpawningRngMaxName, 0, 50, HintText = WanderSpawningRngMaxHint, Order = 0, RequireRestart = false)]
         [SettingPropertyGroup(PatchWandererSpawningName)]
         public int WanderSpawningRngMax { get; set; } = 32;
+        #endregion
 
-        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, IsToggle = true, Order = 7, RequireRestart = true)]
+        #region Town and Village Variety
+        [SettingPropertyBool(TownAndVillageVarietyName, HintText = TownAndVillageVarietyHint, IsToggle = true, RequireRestart = true)]
         [SettingPropertyGroup(TownAndVillageVarietyName, GroupOrder = 2)]
         public bool TownAndVillageVariety { get; set; } = true;
 
-        [SettingPropertyFloatingInteger(WorkerGenderRatioName, 0, 1, HintText = WorkerGenderRatioHint, Order = 8, RequireRestart = false)]
+        [SettingPropertyFloatingInteger(WorkerGenderRatioName, 0, 1, HintText = WorkerGenderRatioHint, Order = 0, RequireRestart = false)]
         [SettingPropertyGroup(TownAndVillageVarietyName)]
         public float WorkerGenderRatio { get; set; } = LocationCharacterConstructorPatch.WorkerGenderRatio;
+        #endregion
     }
 }

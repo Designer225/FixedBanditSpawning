@@ -6,6 +6,8 @@
   <strings>
     <string id="D225MiscFixes_ModNameText" text="Designer225's Miscellaneous Fixes"/>
     
+    <string id="D225MiscFixes_PatchEncyclopediaEntryName" text="Patch Encyclopedia Entry"/>
+    <string id="D225MiscFixes_PatchEncyclopediaEntryHint" text="Fixes some of TaleWorld's black magic that prevents children under 10 from being rendered in their encyclopedia entries. Also give children over 3 portraits (Baby portraits for 8 year olds? Seriously?). Disable if another mod also does this."/>
     <string id="D225MiscFixes_PatchBanditSpawningName" text="Patch Bandit Spawning"/>
     <string id="D225MiscFixes_PatchBanditSpawningHint" text="Enable this to patch bandit spawning to allow more than 3 types of troops. Disable if another mod also does this."/>
     <string id="D225MiscFixes_PatchAgentSpawningName" text="Patch Agent Spawning"/>
@@ -16,10 +18,12 @@
     <string id="D225MiscFixes_PatchSavePreviewGenderBugHint" text="Enable this to fix heroes in save preview having incorrect morphs for certain edge cases. Disable if another mod also does this."/>
     <string id="D225MiscFixes_FixMachineGunCrosshairName" text="Fix Machine Gun/Multi-Round Crossbow Crosshair"/>
     <string id="D225MiscFixes_FixMachineGunCrosshairHint" text="Enable to fix crosshair disappearing when there are still rounds in a 'crossbow' (machine gun?). Disable if another mod also does this."/>
+    
     <string id="D225MiscFixes_PatchWandererSpawningName" text="Patch Wander Spawning"/>
     <string id="D225MiscFixes_PatchWandererSpawningHint" text="Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this."/>
     <string id="D225MiscFixes_WanderSpawningRngMaxName" text="Wanderer Max RNG Age Increase"/>
     <string id="D225MiscFixes_WanderSpawningRngMaxHint" text="Sets the maximum age increase of wanderers during game start. Default is 32 years (originally 5 + randomized max 27). Does not require restart unlike other options."/>
+    
     <string id="D225MiscFixes_TownAndVillageVarietyName" text="Add Variety to Villagers and Townsfolk"/>
     <string id="D225MiscFixes_TownAndVillageVarietyHint" text="Make villagers and townsfolk slightly more varied and gendered. Also fixes an issue with modified age models, while also making some children less innocent. Disable if another mod also does this."/>
     <string id="D225MiscFixes_WorkerMaleToFemaleRatioName" text="Worker Gender Ratio"/>
