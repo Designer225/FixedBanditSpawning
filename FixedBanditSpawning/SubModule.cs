@@ -30,6 +30,7 @@ namespace FixedBanditSpawning
 
             Harmony harmony = new Harmony("d225.fixedbanditspawning");
             harmony.PatchAll();
+            Debug.Print("[FixedBanditSpawning] Loaded");
         }
 
         internal static void DisableInvulnerability(Agent agent)
