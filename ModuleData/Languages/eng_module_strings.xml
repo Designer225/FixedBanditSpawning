@@ -6,8 +6,8 @@
   <strings>
     <string id="D225MiscFixes_ModNameText" text="Designer225's Miscellaneous Fixes"/>
     
-    <string id="D225MiscFixes_PatchEncyclopediaEntryName" text="Patch Encyclopedia Entry"/>
-    <string id="D225MiscFixes_PatchEncyclopediaEntryHint" text="Fixes some of TaleWorld's black magic that prevents children under 10 from being rendered in their encyclopedia entries. Also give children over 3 portraits (Baby portraits for 8 year olds? Seriously?). Disable if another mod also does this."/>
+    <string id="D225MiscFixes_PatchHeroEncyclopediaEntriesName" text="Patch Hero Encyclopedia Entries"/>
+    <string id="D225MiscFixes_PatchHeroEncyclopediaEntriesHint" text="Fixes some of TaleWorld's black magic that prevents children under 10 from being rendered in their encyclopedia entries. Also give children over 3 portraits (Baby portraits for 8 year olds? Seriously?). Disable if another mod also does this."/>
     <string id="D225MiscFixes_PatchBanditSpawningName" text="Patch Bandit Spawning"/>
     <string id="D225MiscFixes_PatchBanditSpawningHint" text="Enable this to patch bandit spawning to allow more than 3 types of troops. Disable if another mod also does this."/>
     <string id="D225MiscFixes_PatchAgentSpawningName" text="Patch Agent Spawning"/>

@@ -83,7 +83,7 @@ namespace FixedBanditSpawning
 
     interface ID225MiscFixesSettings
     {
-        bool PatchEncyclopediaEntry { get; set; }
+        bool PatchHeroEncyclopediaEntries { get; set; }
 
         bool PatchBanditSpawning { get; set; }
 
@@ -108,7 +108,7 @@ namespace FixedBanditSpawning
     public class D225MiscFixesDefaultSettings : ID225MiscFixesSettings
     {
         [XmlElement(DataType = "boolean")]
-        public bool PatchEncyclopediaEntry { get; set; } = true;
+        public bool PatchHeroEncyclopediaEntries { get; set; } = true;
 
         [XmlElement(DataType = "boolean")]
         public bool PatchBanditSpawning { get; set; } = true;
@@ -149,9 +149,9 @@ namespace FixedBanditSpawning
         public override string DisplayName => ModNameTextObject.ToString();
 
         #region Patches
-        [SettingPropertyBool(PatchEncyclopediaEntryName, HintText = PatchEncyclopediaEntryHint, Order = 0, RequireRestart = true)]
+        [SettingPropertyBool(PatchHeroEncyclopediaEntriesName, HintText = PatchHeroEncyclopediaEntriesHint, Order = 0, RequireRestart = true)]
         [SettingPropertyGroup(ModNameText)]
-        public bool PatchEncyclopediaEntry { get; set; } = true;
+        public bool PatchHeroEncyclopediaEntries { get; set; } = true;
 
         [SettingPropertyBool(PatchBanditSpawningName, HintText = PatchBanditSpawningHint, Order = 1, RequireRestart = true)]
         [SettingPropertyGroup(ModNameText)]

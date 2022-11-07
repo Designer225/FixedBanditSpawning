@@ -11,8 +11,8 @@ namespace FixedBanditSpawning
     {
         private const string ModNameText = "{=D225MiscFixes_ModNameText}Designer225's Miscellaneous Fixes",
 
-            PatchEncyclopediaEntryName = "{=D225MiscFixes_PatchEncyclopediaEntryName}Patch Encyclopedia Entry",
-            PatchEncyclopediaEntryHint = "{=D225MiscFixes_PatchEncyclopediaEntryHint}Fixes some of TaleWorld's black magic that prevents children under 10 from being rendered in their encyclopedia entries. Also give children over 3 portraits (Baby portraits for 8 year olds? Seriously?). Disable if another mod also does this.",
+            PatchHeroEncyclopediaEntriesName = "{=D225MiscFixes_PatchHeroEncyclopediaEntriesName}Patch Hero Encyclopedia Entries",
+            PatchHeroEncyclopediaEntriesHint = "{=D225MiscFixes_PatchHeroEncyclopediaEntriesHint}Fixes some of TaleWorld's black magic that prevents children under 10 from being rendered in their encyclopedia entries. Also give children over 3 portraits (Baby portraits for 8 year olds? Seriously?). Disable if another mod also does this.",
             PatchBanditSpawningName = "{=D225MiscFixes_PatchBanditSpawningName}Patch Bandit Spawning",
             PatchBanditSpawningHint = "{=D225MiscFixes_PatchBanditSpawningHint}Enable this to patch bandit spawning to allow more than 3 types of troops. Disable if another mod also does this.",
             PatchAgentSpawningName = "{=D225MiscFixes_PatchAgentSpawningName}Patch Agent Spawning",
