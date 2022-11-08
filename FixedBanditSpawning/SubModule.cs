@@ -226,34 +226,8 @@ namespace FixedBanditSpawning
         }
     }
 
-    [HarmonyPatch(typeof(Mission), "BuildAgent")]
-    public static class Mission_BuildAgent_Patch
-    {
-        public static bool Prepare()
-        {
-            if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
-            {
-                Debug.Print("[FixedBanditSpawning] Will patch invincible children");
-                return true;
-            }
-            Debug.Print("[FixedBanditSpawning] Will NOT patch invincible children");
-            return false;
-        }
-
-        public static void Postfix(Agent agent)
-        {   
-            if (agent.IsHuman && agent.Age < 18f)
-            {
-                SubModule.DisableInvulnerability(agent);
-                agent.AgentVisuals.BatchLastLodMeshes();
-                agent.PreloadForRendering();
-                agent.UpdateSpawnEquipmentAndRefreshVisuals(agent.SpawnEquipment);
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(Agent), nameof(Agent.UpdateSpawnEquipmentAndRefreshVisuals))]
-    public static class UpdateSpawnEquipmentAndRefreshVisualsPatch
+    [HarmonyPatch(typeof(Agent), nameof(Agent.EquipItemsFromSpawnEquipment))]
+    public static class Agent_EquipItemFromSpawnEquipmentPatch
     {
         public static bool Prepare()
         {
@@ -268,6 +242,49 @@ namespace FixedBanditSpawning
                 SubModule.DisableInvulnerability(__instance);
         }
     }
+
+    //[HarmonyPatch(typeof(Mission), "BuildAgent")]
+    //public static class Mission_BuildAgent_Patch
+    //{
+    //    public static bool Prepare()
+    //    {
+    //        if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
+    //        {
+    //            Debug.Print("[FixedBanditSpawning] Will patch invincible children");
+    //            return true;
+    //        }
+    //        Debug.Print("[FixedBanditSpawning] Will NOT patch invincible children");
+    //        return false;
+    //    }
+
+    //    public static void Postfix(Agent agent)
+    //    {   
+    //        if (agent.IsHuman && agent.Age < 18f)
+    //        {
+    //            SubModule.DisableInvulnerability(agent);
+    //            agent.AgentVisuals.BatchLastLodMeshes();
+    //            agent.PreloadForRendering();
+    //            //agent.UpdateSpawnEquipmentAndRefreshVisuals(agent.SpawnEquipment);
+    //        }
+    //    }
+    //}
+
+    //[HarmonyPatch(typeof(Agent), nameof(Agent.UpdateSpawnEquipmentAndRefreshVisuals))]
+    //public static class UpdateSpawnEquipmentAndRefreshVisualsPatch
+    //{
+    //    public static bool Prepare()
+    //    {
+    //        if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
+    //            return true;
+    //        return false;
+    //    }
+
+    //    public static void Postfix(Agent __instance)
+    //    {
+    //        if (__instance.IsHuman && __instance.Age < 18f)
+    //            SubModule.DisableInvulnerability(__instance);
+    //    }
+    //}
 
     [HarmonyPatch(typeof(HeroCreator), "CreateNewHero")]
     public static class HeroCreator_CreateNewHero_Patch
