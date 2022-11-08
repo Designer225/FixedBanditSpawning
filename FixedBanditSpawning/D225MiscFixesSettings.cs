@@ -150,7 +150,7 @@ namespace FixedBanditSpawning
 
         #region Patches
         [SettingPropertyBool(PatchHeroEncyclopediaEntriesName, HintText = PatchHeroEncyclopediaEntriesHint, Order = 0, RequireRestart = true)]
-        [SettingPropertyGroup(ModNameText)]
+        [SettingPropertyGroup(ModNameText, GroupOrder = 0)]
         public bool PatchHeroEncyclopediaEntries { get; set; } = true;
 
         [SettingPropertyBool(PatchBanditSpawningName, HintText = PatchBanditSpawningHint, Order = 1, RequireRestart = true)]
