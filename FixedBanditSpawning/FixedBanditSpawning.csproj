@@ -56,6 +56,7 @@
     </Reference>
     <Reference Include="TaleWorlds.CampaignSystem.ViewModelCollection">
       <HintPath>..\..\..\bin\Win64_Shipping_Client\TaleWorlds.CampaignSystem.ViewModelCollection.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TaleWorlds.Core">
       <HintPath>..\..\..\bin\Win64_Shipping_Client\TaleWorlds.Core.dll</HintPath>
@@ -63,6 +64,7 @@
     </Reference>
     <Reference Include="TaleWorlds.Core.ViewModelCollection">
       <HintPath>..\..\..\bin\Win64_Shipping_Client\TaleWorlds.Core.ViewModelCollection.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TaleWorlds.DotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\..\..\bin\Win64_Shipping_Client\TaleWorlds.DotNet.dll</HintPath>
@@ -76,6 +78,7 @@
     </Reference>
     <Reference Include="TaleWorlds.GauntletUI">
       <HintPath>..\..\..\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TaleWorlds.Library">
       <HintPath>..\..\..\bin\Win64_Shipping_Client\TaleWorlds.Library.dll</HintPath>
@@ -92,6 +95,7 @@
     </Reference>
     <Reference Include="TaleWorlds.MountAndBlade.GauntletUI">
       <HintPath>..\..\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.GauntletUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TaleWorlds.MountAndBlade.View">
       <HintPath>..\..\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.View.dll</HintPath>
