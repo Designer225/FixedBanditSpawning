@@ -34,7 +34,7 @@
     <PostBuildEvent />
     <BaseOutputPath>..\bin\Win64_Shipping_Client\</BaseOutputPath>
     <PlatformTarget>x64</PlatformTarget>
-    <Version>1.1.15.80</Version>
+    <Version>1.1.16.82</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Bannerlord.MCM" Version="5.0.4" />

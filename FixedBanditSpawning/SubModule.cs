@@ -23,14 +23,16 @@ namespace FixedBanditSpawning
     public class SubModule : MBSubModuleBase
     {
         //internal static Dictionary<Agent, float> AgentAgeDict { get; set; } = new Dictionary<Agent, float>();
+        private bool _isLoaded = false;
 
-        protected override void OnSubModuleLoad()
+        protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            base.OnSubModuleLoad();
+            if (_isLoaded) return;
+            base.OnBeforeInitialModuleScreenSetAsRoot();
 
             Harmony harmony = new Harmony("d225.fixedbanditspawning");
             harmony.PatchAll();
-            Debug.Print("[FixedBanditSpawning] Loaded");
+            _isLoaded = true;
         }
 
         internal static void DisableInvulnerability(Agent agent)
@@ -232,7 +234,10 @@ namespace FixedBanditSpawning
         public static bool Prepare()
         {
             if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
+            {
+                Debug.Print("[FixedBanditSpawning] Will patch invincible children");
                 return true;
+            }
             return false;
         }
 
