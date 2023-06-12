@@ -61,6 +61,14 @@ namespace FixedBanditSpawning
         }
     }
 
+    public static class PatchUtility
+    {
+        internal static bool Matches(this CodeInstruction instruction, OpCode opcode) => instruction.opcode == opcode;
+
+        internal static bool Matches<T>(this CodeInstruction instruction, OpCode opcode, T operand)
+            => instruction.Matches(opcode) && instruction.operand is T t && t.Equals(operand);
+    }
+
     [HarmonyPatch(typeof(MobileParty), "FillPartyStacks")]
     public static class MobileParty_FillPartyStacks_Patch
     {
@@ -119,112 +127,24 @@ namespace FixedBanditSpawning
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            Debug.Print("[FixedBanditSpawning] Attempting to bypass age checker in Mission.SpawnAgent()");
-            var codes = instructions.ToList();
-
-            int stage = 0;
-            int replaceIndex = -1;
-            Label jumpLabel = default;
-            for (int i = 0; i < codes.Count; i++)
+            var list = instructions.ToList();
+            for (int i = 0; i < list.Count; i++)
             {
-                if (stage == 0 && codes[i].opcode == OpCodes.Ldloc_3)
+                if (list[i].Matches(OpCodes.Ldarg_0) && i + 3 < list.Count && list[i + 3].Matches(OpCodes.Starg_S))
                 {
-                    stage = 1;
+                    list.RemoveRange(i, 3);
+                    yield return new CodeInstruction(OpCodes.Ldarg_1);
+                    yield return list[i];
                 }
-                else if (stage == 1)
+                else if (list[i].Matches(OpCodes.Stloc_S) && list[i].operand is LocalBuilder lb && lb.LocalIndex == 5)
                 {
-                    if (codes[i].opcode != OpCodes.Ldc_R4)
-                    {
-                        stage = 2;
-                    }
-                    else
-                    {
-                        stage = 0;
-                    }
+                    yield return list[i];
+                    yield return new CodeInstruction(OpCodes.Ldarg_1);
+                    yield return new CodeInstruction(list[i]);
                 }
-                else if (stage == 2)
-                {
-                    if (codes[i].opcode == OpCodes.Bne_Un_S && codes[i].operand is Label)
-                    {
-                        stage = 3;
-                        replaceIndex = i;
-                    }
-                    else
-                    {
-                        stage = 0;
-                    }
-                }
-                else if (stage == 3)
-                {
-                    if (codes[i].opcode == OpCodes.Ldarg_1)
-                    {
-                        stage = 4;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
-                else if (stage == 4)
-                {
-                    if (codes[i].opcode == OpCodes.Ldc_I4_S)
-                    {
-                        stage = 5;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
-                else if (stage == 5)
-                {
-                    if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand is MethodInfo method
-                        && method == AccessTools.Method(typeof(AgentBuildData), nameof(AgentBuildData.Age)))
-                    {
-                        stage = 6;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
-                else if (stage == 6)
-                {
-                    if (codes[i].opcode == OpCodes.Pop)
-                    {
-                        stage = 7;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
-                else if (stage == 7)
-                {
-                    if (codes[i].opcode == OpCodes.Br_S && codes[i].operand is Label label)
-                    {
-                        jumpLabel = label;
-                        break;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
+                else
+                    yield return list[i];
             }
-
-            if (replaceIndex != -1 && jumpLabel != default)
-            {
-                codes[replaceIndex].operand = jumpLabel;
-                Debug.Print("[FixedBanditSpawning] Age checker in Mission.SpawnAgent() bypassed :)");
-            }
-
-            return codes.AsEnumerable();
         }
     }
 
@@ -248,49 +168,6 @@ namespace FixedBanditSpawning
         }
     }
 
-    //[HarmonyPatch(typeof(Mission), "BuildAgent")]
-    //public static class Mission_BuildAgent_Patch
-    //{
-    //    public static bool Prepare()
-    //    {
-    //        if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
-    //        {
-    //            Debug.Print("[FixedBanditSpawning] Will patch invincible children");
-    //            return true;
-    //        }
-    //        Debug.Print("[FixedBanditSpawning] Will NOT patch invincible children");
-    //        return false;
-    //    }
-
-    //    public static void Postfix(Agent agent)
-    //    {   
-    //        if (agent.IsHuman && agent.Age < 18f)
-    //        {
-    //            SubModule.DisableInvulnerability(agent);
-    //            agent.AgentVisuals.BatchLastLodMeshes();
-    //            agent.PreloadForRendering();
-    //            //agent.UpdateSpawnEquipmentAndRefreshVisuals(agent.SpawnEquipment);
-    //        }
-    //    }
-    //}
-
-    //[HarmonyPatch(typeof(Agent), nameof(Agent.UpdateSpawnEquipmentAndRefreshVisuals))]
-    //public static class UpdateSpawnEquipmentAndRefreshVisualsPatch
-    //{
-    //    public static bool Prepare()
-    //    {
-    //        if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
-    //            return true;
-    //        return false;
-    //    }
-
-    //    public static void Postfix(Agent __instance)
-    //    {
-    //        if (__instance.IsHuman && __instance.Age < 18f)
-    //            SubModule.DisableInvulnerability(__instance);
-    //    }
-    //}
-
     [HarmonyPatch(typeof(HeroCreator), "CreateNewHero")]
     public static class HeroCreator_CreateNewHero_Patch
     {
@@ -304,67 +181,24 @@ namespace FixedBanditSpawning
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            Debug.Print("[FixedBanditSpawning] Attempting to bypass 2 age checkers in HeroCreator.CreateNewHero()");
-            var codes = instructions.ToList();
-
-            for (int j = 0; j < codes.Count - 3; j++)
+            var list = instructions.ToList();
+            for (int i = 0; i < list.Count; i++)
             {
-                if (codes[j].opcode == OpCodes.Ldarg_0 && codes[j+1].opcode == OpCodes.Callvirt
-                    && codes[j+2].opcode == OpCodes.Conv_I4 && codes[j+3].opcode == OpCodes.Starg_S)
+                if (list[i].Matches(OpCodes.Ldarg_0) && i + 3 < list.Count && list[i + 3].Matches(OpCodes.Starg_S))
                 {
-                    codes[j] = new CodeInstruction(OpCodes.Nop);
-                    codes[j + 1] = new CodeInstruction(OpCodes.Nop);
-                    codes[j + 2] = new CodeInstruction(OpCodes.Nop);
-                    codes[j + 3] = new CodeInstruction(OpCodes.Nop);
-                    Debug.Print("[FixedBanditSpawning] Age checker 1 in HeroCreator.CreateNewHero() bypassed :)");
-                    break;
+                    list.RemoveRange(i, 3);
+                    yield return new CodeInstruction(OpCodes.Ldarg_1);
+                    yield return list[i];
                 }
+                else if (list[i].Matches(OpCodes.Stloc_S) && list[i].operand is LocalBuilder lb && lb.LocalIndex == 5)
+                {
+                    yield return list[i];
+                    yield return new CodeInstruction(OpCodes.Ldarg_1);
+                    yield return new CodeInstruction(list[i]);
+                }
+                else
+                    yield return list[i];
             }
-
-            int stage = 0;
-            int replaceIndex = -1;
-            Label jumpLabel = default;
-            for (int i = 0; i < codes.Count; i++)
-            {
-                if (stage == 0 && codes[i].opcode == OpCodes.Ldarg_1)
-                {
-                    stage = 1;
-                    replaceIndex = i;
-                }
-                else if (stage == 1)
-                {
-                    if (codes[i].opcode == OpCodes.Ldc_I4_S)
-                    {
-                        stage = 2;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
-                else if (stage == 2)
-                {
-                    if (codes[i].opcode == OpCodes.Bge_S && codes[i].operand is Label label)
-                    {
-                        jumpLabel = label;
-                        break;
-                    }
-                    else
-                    {
-                        stage = 0;
-                        replaceIndex = -1;
-                    }
-                }
-            }
-
-            if (replaceIndex != -1 && jumpLabel != default)
-            {
-                codes[replaceIndex] = new CodeInstruction(OpCodes.Br, jumpLabel);
-                Debug.Print("[FixedBanditSpawning] Age checker 2 in HeroCreator.CreateNewHero() bypassed :)");
-            }
-
-            return codes.AsEnumerable();
         }
     }
 
@@ -381,82 +215,43 @@ namespace FixedBanditSpawning
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            Debug.Print("[FixedBanditSpawning] Attempting to bypass artificial age adder in UrbanCharactersCampaignBehavior.CreateCompanion()");
-            var codes = instructions.ToList();
-
-            for (int i = 0; i < codes.Count; i++)
+            foreach (var instruction in instructions)
             {
-                if (codes[i].opcode == OpCodes.Callvirt
-                    && codes[i].operand is MethodInfo method && method == AccessTools.PropertyGetter(typeof(AgeModel), nameof(AgeModel.HeroComesOfAge)))
-                {
-                    codes[i + 1] = new CodeInstruction(OpCodes.Nop);
-                    codes[i + 2] = new CodeInstruction(OpCodes.Nop);
-                    codes[i + 3] = new CodeInstruction(OpCodes.Call,
-                        AccessTools.PropertyGetter(typeof(D225MiscFixesSettingsUtil), nameof(D225MiscFixesSettingsUtil.WandererRngMaxAge)));
-                    Debug.Print("[FixedBanditSpawning] Artificial age adder in UrbanCharactersCampaignBehavior.CreateCompanion() bypassed :)");
-                    break;
-                }
+                if (instruction.Matches(OpCodes.Ldc_I4_5))
+                    yield return new CodeInstruction(OpCodes.Ldc_I4_0);
+                else
+                    yield return instruction;
             }
-
-            return codes.AsEnumerable();
         }
     }
 
     [HarmonyPatch(typeof(BasicCharacterTableau), "RefreshCharacterTableau")]
     static class InitializeAgentVisualsTranspiler
     {
-        private static readonly List<string> incompatibleInstances = new List<string>
-        {
-            "mod.bannerlord.popowanobi.dcc"
-        };
-
         public static bool Prepare(MethodBase original)
         {
             if (D225MiscFixesSettingsUtil.Instance.PatchSavePreviewGenderBug)
             {
-                if (original == null) return true;
-                var info = Harmony.GetPatchInfo(original);
-                if (info == default || info.Transpilers.Select(x => x.owner).Intersect(incompatibleInstances).IsEmpty())
-                {
-                    Debug.Print("[FixedBanditSpawning] Preparing to patch incorrect save preview stuff");
-                    return true;
-                }
-                Debug.Print("[FixedBanditSpawning] Patch to fix misgendered character rendering already exists, skipping");
+                Debug.Print("[FixedBanditSpawning] Preparing to patch incorrect save preview stuff");
+                return true;
             }
             return false;
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            Debug.Print("[FixedBanditSpawning] Attempting to fix save preview misgendering");
-            var code = instructions.ToList();
-
-            // locate call to MBAgentVisuals function and work backwards
-            int i;
-            for (i = 0; i < code.Count; i++)
+            var list = instructions.ToList();
+            for (int i = 0; i < list.Count; i++)
             {
-                if (code[i].opcode == OpCodes.Call && code[i].operand is MethodInfo method
-                    && method == AccessTools.Method(typeof(MBAgentVisuals), nameof(MBAgentVisuals.FillEntityWithBodyMeshesWithoutAgentVisuals)))
-                    break;
-            }
-
-            if (i < code.Count)
-            {
-                for (; i >= 0; i--)
+                yield return list[i];
+                if (list[i].Matches(OpCodes.Ldfld, AccessTools.Field(typeof(BasicCharacterTableau), "_faceDirtAmount"))
+                    && list[i + 1].Matches(OpCodes.Ldloc_S) && list[i + 1].operand is LocalBuilder lb && lb.LocalIndex == 4)
                 {
-                    if (code[i].opcode == OpCodes.Ldloc_S && code[i].operand is LocalBuilder lb && lb.LocalIndex == 4)
-                    {
-                        // replace current instruction
-                        code[i] = new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(BasicCharacterTableau), "_isFemale"));
-                        // insert ahead this
-                        code.Insert(i, new CodeInstruction(OpCodes.Ldarg_0)); // instance methods use ldarg_0 as this
-                        Debug.Print("[FixedBanditSpawning] Save preview misgendering fixed");
-                        break;
-                    }
+                    list.RemoveAt(i + 1);
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
+                    yield return new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(BasicCharacterTableau), "_isFemale"));
                 }
             }
-
-            return code.AsEnumerable();
         }
     }
 

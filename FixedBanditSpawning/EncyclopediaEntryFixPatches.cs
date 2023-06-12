@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.Engine;
@@ -17,145 +20,39 @@ using TaleWorlds.MountAndBlade.View.Tableaus;
 
 namespace FixedBanditSpawning
 {
-    [HarmonyPatch(typeof(HeroViewModel), nameof(HeroViewModel.FillFrom))]
-    public static class HeroViewModel_FillFromPatch
+    [HarmonyPatch]
+    public static class FaceGen_GetMaturityTypeWithAgePatches
     {
         static bool Prepare()
         {
             return D225MiscFixesSettingsUtil.Instance.PatchHeroEncyclopediaEntries;
         }
 
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        static IEnumerable<MethodBase> TargetMethods()
         {
-            var codes = instructions.ToList();
+            // TaleWorlds.Core.ViewModelCollection
+            yield return AccessTools.Method(typeof(CharacterViewModel), nameof(CharacterViewModel.FillFrom));
+            // TaleWorlds.CampaignSystem
+            //yield return AccessTools.Method(typeof(PartyScreenLogic), nameof(PartyScreenLogic.IsExecutable));
+            // TaleWorlds.CampaignSystem.ViewModelCollection
+            yield return AccessTools.Method(typeof(ClanLordItemVM), nameof(ClanLordItemVM.UpdateProperties));
+            yield return AccessTools.Constructor(typeof(HeroVM), new Type[] { typeof(Hero), typeof(bool) });
+            yield return AccessTools.Method(typeof(HeroViewModel), nameof(HeroViewModel.FillFrom));
+            //yield return AccessTools.Method(typeof(PartyCharacterVM), nameof(PartyCharacterVM.ExecuteExecuteTroop));
+            // TaleWorlds.MountAndBlade.GauntletUI
+            yield return AccessTools.Method(typeof(ImageIdentifierTextureProvider), nameof(ImageIdentifierTextureProvider.CreateImageWithId));
+            yield return AccessTools.Method(typeof(ImageIdentifierTextureProvider), nameof(ImageIdentifierTextureProvider.ReleaseCache));
+        }
 
-            for (int i = 0; i < codes.Count; i++)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var list = instructions.ToList();
+
+            for (int i = 0; i < list.Count; i++)
             {
-                if (codes[i].opcode == OpCodes.Ble)
-                {
-                    codes.RemoveRange(0, i + 1);
-                    break;
-                }
-            }
-
-            Debug.Print("[FixedBanditSpawning] Reducing amount of pure nothing in hero encyclopedia entries");
-            return codes.AsEnumerable();
-        }
-    }
-
-    [HarmonyPatch(typeof(CharacterViewModel), nameof(CharacterViewModel.FillFrom))]
-    public static class CharacterViewModel_FillFromPatch
-    {
-        static bool Prepare()
-        {
-            return D225MiscFixesSettingsUtil.Instance.PatchHeroEncyclopediaEntries;
-        }
-
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            var codes = instructions.ToList();
-
-            for (int i = 0; i < codes.Count; i++)
-            {
-                if (codes[i].opcode == OpCodes.Ble)
-                {
-                    codes.RemoveRange(0, i + 1);
-                    break;
-                }
-            }
-
-            Debug.Print("[FixedBanditSpawning] Reducing amount of pure nothing in hero encyclopedia entries");
-            return codes.AsEnumerable();
-        }
-    }
-
-    [HarmonyPatch(typeof(HeroVM), MethodType.Constructor, new Type[] { typeof(Hero), typeof(bool) })]
-    public static class HeroVM_Constructor_Patch
-    {
-        static bool Prepare()
-        {
-            if (D225MiscFixesSettingsUtil.Instance.PatchHeroEncyclopediaEntries)
-            {
-                Debug.Print("[FixedBanditSpawning] Reducing number of baby photos (and replacing them with portraits)");
-                return true;
-            }
-            return false;
-        }
-
-        public static void Postfix(HeroVM __instance, Hero hero)
-        {
-            if (hero != null)
-                __instance.IsChild = hero.Age < 3;
-            __instance.RefreshValues();
-        }
-    }
-
-    [HarmonyPatch(typeof(ClanLordItemVM), nameof(ClanLordItemVM.UpdateProperties))]
-    public static class ClanLordItemVMUpdatePropertiesPatch
-    {
-        static bool Prepare()
-        {
-            if (D225MiscFixesSettingsUtil.Instance.PatchHeroEncyclopediaEntries)
-            {
-                Debug.Print("[FixedBanditSpawning] Reducing number of baby photos (and replacing them with portraits)");
-                return true;
-            }
-            return false;
-        }
-
-        public static void Postfix(ClanLordItemVM __instance, Hero ____hero)
-        {
-            __instance.IsChild = ____hero.Age < 3; // seriously TaleWorlds don't you think a picture of a baby is weird for a 3+ year old?
-        }
-    }
-
-    [HarmonyPatch(typeof(ImageIdentifierTextureProvider), nameof(ImageIdentifierTextureProvider.CreateImageWithId))]
-    public static class CreateImageWithIdPatch
-    {
-        static bool Prepare()
-        {
-            if (D225MiscFixesSettingsUtil.Instance.PatchHeroEncyclopediaEntries)
-            {
-                Debug.Print("[FixedBanditSpawning] Reducing amount of pure nothing in hero encyclopedia entries");
-                return true;
-            }
-            return false;
-        }
-
-        // The original method is async, but the problem spot is not, so...
-        public static void Postfix(ImageIdentifierTextureProvider __instance, string id, int typeAsInt, string additionalArgs, CharacterCode ____characterCode, ref bool ____creatingTexture)
-        {
-            if (!string.IsNullOrEmpty(id) && typeAsInt == 5)
-            {
-                if (TaleWorlds.Core.FaceGen.GetMaturityTypeWithAge(____characterCode.BodyProperties.Age) <= BodyMeshMaturityType.Child && ____characterCode.BodyProperties.Age >= 3)
-                {
-                    ____creatingTexture = true;
-                    TableauCacheManager.Current.BeginCreateCharacterTexture(____characterCode, AccessTools.MethodDelegate<Action<Texture>>(AccessTools.Method(typeof(ImageIdentifierTextureProvider), "OnTextureCreated"), __instance), __instance.IsBig);
-                }
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(ImageIdentifierTextureProvider), nameof(ImageIdentifierTextureProvider.ReleaseCache))]
-    public static class ReleaseCachePatch
-    {
-        static bool Prepare()
-        {
-            if (D225MiscFixesSettingsUtil.Instance.PatchHeroEncyclopediaEntries)
-            {
-                Debug.Print("[FixedBanditSpawning] Making sure the fillings get removed");
-                return true;
-            }
-            return false;
-        }
-
-        public static void Postfix(ImageIdentifierTextureProvider __instance, CharacterCode ____characterCode)
-        {
-            if (__instance.ImageTypeCode == 5 && ____characterCode != null
-                && TaleWorlds.Core.FaceGen.GetMaturityTypeWithAge(____characterCode.BodyProperties.Age) <= BodyMeshMaturityType.Child
-                && ____characterCode.BodyProperties.Age >= 3)
-            {
-                TableauCacheManager.Current.ReleaseTextureWithId(____characterCode, __instance.IsBig);
+                yield return list[i];
+                if (list[i].Matches(OpCodes.Call, AccessTools.Method(typeof(FaceGen), nameof(FaceGen.GetMaturityTypeWithAge))))
+                    list[i + 1] = new CodeInstruction(OpCodes.Ldc_I4_0);
             }
         }
     }
