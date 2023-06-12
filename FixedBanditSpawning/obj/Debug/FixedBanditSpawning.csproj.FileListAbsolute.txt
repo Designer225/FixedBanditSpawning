@@ -39,6 +39,11 @@ C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Module
 C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\bin\Debug\MCMv4.pdb
 C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csproj.AssemblyReference.cache
 C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csproj.CoreCompileInputs.cache
-C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.csproj.CopyComplete
 C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.dll
 C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.GeneratedMSBuildEditorConfig.editorconfig
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.AssemblyInfoInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\FixedBanditSpawning\obj\Debug\FixedBanditSpawning.AssemblyInfo.cs
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\bin\Win64_Shipping_Client\FixedBanditSpawning.deps.json
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\bin\Win64_Shipping_Client\FixedBanditSpawning.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning\bin\Win64_Shipping_Client\FixedBanditSpawning.pdb
