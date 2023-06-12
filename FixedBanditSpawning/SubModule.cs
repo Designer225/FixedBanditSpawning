@@ -128,22 +128,12 @@ namespace FixedBanditSpawning
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var list = instructions.ToList();
+
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].Matches(OpCodes.Ldarg_0) && i + 3 < list.Count && list[i + 3].Matches(OpCodes.Starg_S))
-                {
-                    list.RemoveRange(i, 3);
-                    yield return new CodeInstruction(OpCodes.Ldarg_1);
-                    yield return list[i];
-                }
-                else if (list[i].Matches(OpCodes.Stloc_S) && list[i].operand is LocalBuilder lb && lb.LocalIndex == 5)
-                {
-                    yield return list[i];
-                    yield return new CodeInstruction(OpCodes.Ldarg_1);
-                    yield return new CodeInstruction(list[i]);
-                }
-                else
-                    yield return list[i];
+                yield return list[i];
+                if (list[i].Matches(OpCodes.Call, AccessTools.Method(typeof(MBBodyProperties), nameof(MBBodyProperties.GetMaturityType))))
+                    list[i + 1] = new CodeInstruction(OpCodes.Ldc_I4_0);
             }
         }
     }
