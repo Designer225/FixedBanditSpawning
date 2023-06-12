@@ -219,6 +219,11 @@ namespace FixedBanditSpawning
             {
                 if (instruction.Matches(OpCodes.Ldc_I4_5))
                     yield return new CodeInstruction(OpCodes.Ldc_I4_0);
+                else if (instruction.Matches(OpCodes.Ldc_I4_S, 27))
+                {
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(D225MiscFixesSettingsUtil), nameof(D225MiscFixesSettingsUtil.Instance)));
+                    yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(ID225MiscFixesSettings), nameof(ID225MiscFixesSettings.WanderSpawningRngMax)));
+                }
                 else
                     yield return instruction;
             }

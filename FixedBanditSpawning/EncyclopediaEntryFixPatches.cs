@@ -37,7 +37,7 @@ namespace FixedBanditSpawning
             // TaleWorlds.CampaignSystem.ViewModelCollection
             yield return AccessTools.Method(typeof(ClanLordItemVM), nameof(ClanLordItemVM.UpdateProperties));
             yield return AccessTools.Constructor(typeof(HeroVM), new Type[] { typeof(Hero), typeof(bool) });
-            yield return AccessTools.Method(typeof(HeroViewModel), nameof(HeroViewModel.FillFrom));
+            yield return AccessTools.Method(typeof(HeroViewModel), nameof(HeroViewModel.FillFrom), new Type[] { typeof(Hero), typeof(int), typeof(bool), typeof(bool) });
             //yield return AccessTools.Method(typeof(PartyCharacterVM), nameof(PartyCharacterVM.ExecuteExecuteTroop));
             // TaleWorlds.MountAndBlade.GauntletUI
             yield return AccessTools.Method(typeof(ImageIdentifierTextureProvider), nameof(ImageIdentifierTextureProvider.CreateImageWithId));

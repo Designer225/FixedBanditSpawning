@@ -77,8 +77,6 @@ namespace FixedBanditSpawning
             ExceptionCount = 0;
             return "Success";
         }
-
-        public static int WandererRngMaxAge => Instance.WanderSpawningRngMax;
     }
 
     interface ID225MiscFixesSettings
