@@ -8,7 +8,7 @@
     <Copyright>Copyright © Designer225 2023</Copyright>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <Version>1.1.18.92</Version>
+    <Version>1.1.18.100</Version>
     <DebugType>full</DebugType>
     <PackageOutputPath>$(OutputPath)</PackageOutputPath>
   </PropertyGroup>
