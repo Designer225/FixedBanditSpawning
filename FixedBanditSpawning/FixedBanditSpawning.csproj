@@ -8,13 +8,13 @@
     <Copyright>Copyright © Designer225 2023</Copyright>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <Version>1.1.18.100</Version>
+    <Version>1.1.19.105</Version>
     <DebugType>full</DebugType>
     <PackageOutputPath>$(OutputPath)</PackageOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Bannerlord.MCM" Version="5.7.1" />
-    <PackageReference Include="Bannerlord.ReferenceAssemblies" Version="1.1.4.17949" />
+    <PackageReference Include="Bannerlord.MCM" Version="5.9.1" />
+    <PackageReference Include="Bannerlord.ReferenceAssemblies" Version="1.2.7.31207" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />

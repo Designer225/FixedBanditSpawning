@@ -180,7 +180,7 @@ namespace FixedBanditSpawning
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
                     yield return list[i];
                 }
-                else if (list[i].Matches(OpCodes.Stloc_S) && list[i].operand is LocalBuilder lb && lb.LocalIndex == 5)
+                else if (list[i].Matches(OpCodes.Stloc_S) && list[i].operand is LocalBuilder lb && lb.LocalIndex == 6)
                 {
                     yield return list[i];
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
