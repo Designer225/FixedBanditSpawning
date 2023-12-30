@@ -31,13 +31,13 @@ namespace FixedBanditSpawning
         {
             try
             {
-                AgeModel ageModel = Campaign.Current?.Models?.AgeModel;
+                var ageModel = Campaign.Current?.Models?.AgeModel;
                 if (ageModel == default) return;
 
                 BasicCharacterObject character = agentData.AgentCharacter;
                 if (character is CharacterObject)
                 {
-                    CultureObject culture = (character as CharacterObject).Culture;
+                    var culture = (character as CharacterObject)?.Culture;
                     if (culture == default) return;
 
                     int randMin = agentData.AgentAge;
@@ -133,7 +133,8 @@ namespace FixedBanditSpawning
             BasicCharacterObject character = Campaign.Current.ConversationManager.OneToOneConversationAgent.Character;
             if (character is CharacterObject)
             {
-                CultureObject culture = (character as CharacterObject).Culture;
+                var culture = (character as CharacterObject)?.Culture;
+                if (culture is null) return;
                 __result = character == culture.TownsmanInfant || character == culture.TownswomanInfant
                     || character == culture.TownsmanChild || character == culture.TownswomanChild
                     || character == culture.VillagerMaleChild || character == culture.VillagerFemaleChild;

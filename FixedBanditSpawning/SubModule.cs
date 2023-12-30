@@ -17,6 +17,8 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.MountAndBlade.View.Tableaus;
+using TaleWorlds.MountAndBlade.GauntletUI.Mission;
+using TaleWorlds.ScreenSystem;
 
 namespace FixedBanditSpawning
 {
@@ -250,22 +252,59 @@ namespace FixedBanditSpawning
         }
     }
 
-    [HarmonyPatch(typeof(Agent), "OnWeaponReloadPhaseChange")]
-    static class OnWeaponReloadPhaseChangePatch
+    [HarmonyPatch(typeof(MissionGauntletCrosshair))]
+    static class MissionGauntletCrosshairPatches
     {
+        private static MethodInfo? IsMissionScreenUsingCustomCameraMethod;
+        private static Func<bool>? _methodDelegate;
+
         public static bool Prepare()
         {
             if (D225MiscFixesSettingsUtil.Instance.FixMachineGunCrosshair)
             {
+                IsMissionScreenUsingCustomCameraMethod = AccessTools.Method(typeof(MissionGauntletCrosshair), "IsMissionScreenUsingCustomCamera");
+                if (IsMissionScreenUsingCustomCameraMethod is null) return false;
                 Debug.Print("[FixedBanditSpawning] Fixing crossbow crosshairs");
                 return true;
             }
             return false;
         }
 
-        public static void Prefix(Agent __instance, EquipmentIndex slotIndex, ref short reloadPhase)
+        [HarmonyPatch("OnCreateView")]
+        [HarmonyPostfix]
+        public static void OnCreateViewPostfix(MissionGauntletCrosshair __instance)
         {
-            if (__instance.Equipment[slotIndex].Ammo > 0) reloadPhase = 2;
+            if (IsMissionScreenUsingCustomCameraMethod is null) return;
+            _methodDelegate = AccessTools.MethodDelegate<Func<bool>>(IsMissionScreenUsingCustomCameraMethod, __instance);
+        }
+
+        [HarmonyPatch("OnDestroyView")]
+        [HarmonyPrefix]
+        public static void OnCreateViewPrefix() => _methodDelegate = default;
+
+        [HarmonyPatch("GetShouldCrosshairBeVisible")]
+        [HarmonyPostfix]
+        public static void GetShouldCrosshairBeVisiblePostfix(MissionGauntletCrosshair __instance, ref bool __result)
+        {
+            if (_methodDelegate is null) return;
+
+            if (__instance.Mission.MainAgent == null) return;
+            var wieldedWeapon = __instance.Mission.MainAgent.WieldedWeapon;
+            if (BannerlordConfig.DisplayTargetingReticule)
+            {
+                switch (__instance.Mission.Mode)
+                {
+                    case MissionMode.Conversation:
+                    case MissionMode.CutScene:
+                        break;
+                    default:
+                        if (!ScreenManager.GetMouseVisibility() && !wieldedWeapon.IsEmpty
+                            && wieldedWeapon.CurrentUsageItem.IsRangedWeapon
+                            && !__instance.MissionScreen.IsViewingCharacter() && !_methodDelegate())
+                            __result = __result || wieldedWeapon.Ammo > 0;
+                        break;
+                }
+            }
         }
     }
 }

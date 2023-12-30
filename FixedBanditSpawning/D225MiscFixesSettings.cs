@@ -13,7 +13,7 @@ namespace FixedBanditSpawning
 {
     static class D225MiscFixesSettingsUtil
     {
-        private static ID225MiscFixesSettings instance;
+        private static ID225MiscFixesSettings? instance;
 
         private static FileInfo ConfigFile { get; } = new FileInfo(Path.Combine(BasePath.Name, "Modules", "D225.MiscFixes.config.xml"));
 
