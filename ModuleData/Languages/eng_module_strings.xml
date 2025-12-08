@@ -20,7 +20,7 @@
     <string id="D225MiscFixes_FixMachineGunCrosshairHint" text="Enable to fix crosshair disappearing when there are still rounds in a 'crossbow' (machine gun?). Disable if another mod also does this."/>
     
     <string id="D225MiscFixes_PatchWandererSpawningName" text="Patch Wander Spawning"/>
-    <string id="D225MiscFixes_PatchWandererSpawningHint" text="Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this."/>
+    <string id="D225MiscFixes_PatchWandererSpawningHint" text="Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Only applies when a new game is created or loaded from save."/>
     <string id="D225MiscFixes_WanderSpawningRngMaxName" text="Wanderer Max RNG Age Increase"/>
     <string id="D225MiscFixes_WanderSpawningRngMaxHint" text="Sets the maximum age increase of wanderers during game start. Default is 32 years (originally 5 + randomized max 27). Does not require restart unlike other options."/>
     

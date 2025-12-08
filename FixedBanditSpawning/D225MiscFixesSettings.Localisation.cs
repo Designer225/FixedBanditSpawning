@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.Localization;
+﻿using TaleWorlds.Localization;
 
 namespace FixedBanditSpawning
 {
@@ -25,7 +20,7 @@ namespace FixedBanditSpawning
             FixMachineGunCrosshairHint = "{=D225MiscFixes_FixMachineGunCrosshairHint}Enable to fix crosshair disappearing when there are still rounds in a 'crossbow' (machine gun?). Disable if another mod also does this.",
             
             PatchWandererSpawningName = "{=D225MiscFixes_PatchWandererSpawningName}Patch Wander Spawning",
-            PatchWandererSpawningHint = "{=D225MiscFixes_PatchWandererSpawningHint}Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Disable if another mod also does this.",
+            PatchWandererSpawningHint = "{=D225MiscFixes_PatchWandererSpawningHint}Enable this to get rid of the arbitrary minimum of 20 years for wanderer spawning and also to increase the age range to from adult age to adult age + 32. Only applies when a new game is created or loaded from save.",
             WanderSpawningRngMaxName = "{=D225MiscFixes_WanderSpawningRngMaxName}Wanderer Max RNG Age Increase",
             WanderSpawningRngMaxHint = "{=D225MiscFixes_WanderSpawningRngMaxHint}Sets the maximum age increase of wanderers during game start. Default is 32 years (originally 5 + randomized max 27). Does not require restart unlike other options.",
             

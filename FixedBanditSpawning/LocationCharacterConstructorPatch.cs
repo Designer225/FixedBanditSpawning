@@ -1,19 +1,18 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using Helpers;
 using SandBox.CampaignBehaviors;
-using System;
-using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
 namespace FixedBanditSpawning
 {
-    [HarmonyPatch(typeof(LocationCharacter), MethodType.Constructor, new[] { typeof(AgentData), typeof(LocationCharacter.AddBehaviorsDelegate), typeof(string),
-        typeof(bool), typeof(LocationCharacter.CharacterRelations), typeof(string), typeof(bool), typeof(bool), typeof(ItemObject), typeof(bool), typeof(bool), typeof(bool)
-    })]
+    [HarmonyPatch(typeof(LocationCharacter), MethodType.Constructor, typeof(AgentData),
+        typeof(LocationCharacter.AddBehaviorsDelegate), typeof(string), typeof(bool),
+        typeof(LocationCharacter.CharacterRelations), typeof(string), typeof(bool), typeof(bool), typeof(ItemObject),
+        typeof(bool), typeof(bool), typeof(bool), typeof(LocationCharacter.AfterAgentCreatedDelegate), typeof(bool))]
     static class LocationCharacterConstructorPatch
     {
         public const int InfantAge = 3, ChildAge = 6, TweenAge = 10, TeenAge = 13, AdultAge = 16;
@@ -32,75 +31,83 @@ namespace FixedBanditSpawning
             try
             {
                 var ageModel = Campaign.Current?.Models?.AgeModel;
-                if (ageModel == default) return;
+                if (ageModel == null) return;
 
-                BasicCharacterObject character = agentData.AgentCharacter;
-                if (character is CharacterObject)
+                var character = agentData.AgentCharacter;
+                if (character is CharacterObject characterObject)
                 {
-                    var culture = (character as CharacterObject)?.Culture;
-                    if (culture == default) return;
+                    var culture = characterObject.Culture;
+                    if (culture == null) return;
 
-                    int randMin = agentData.AgentAge;
-                    int randMax = randMin;
+                    var randMin = agentData.AgentAge;
+                    var randMax = randMin;
 
                     // Rather spaghetti-ish, but should do better performance wise
-                    if (character == culture.Barber || character == culture.ShopWorker || character == culture.TavernGamehost || character == culture.Tavernkeeper
-                        || character == culture.Musician || character == culture.Armorer || character == culture.Blacksmith || character == culture.HorseMerchant
-                        || character == culture.Merchant || character == culture.Weaponsmith || character == culture.GangleaderBodyguard)
+                    if (characterObject == culture.Barber || characterObject == culture.ShopWorker ||
+                        characterObject == culture.TavernGamehost || characterObject == culture.Tavernkeeper ||
+                        characterObject == culture.Musician || characterObject == culture.Armorer ||
+                        characterObject == culture.Blacksmith || characterObject == culture.HorseMerchant ||
+                        characterObject == culture.Merchant || characterObject == culture.Weaponsmith ||
+                        characterObject == culture.GangleaderBodyguard)
                     {
                         randMin = TeenAge;
                         randMax = ageModel.BecomeOldAge;
                         agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
-                    else if (character == culture.ArtisanNotary || character == culture.MerchantNotary || character == culture.PreacherNotary
-                        || character == culture.RuralNotableNotary || character == culture.RansomBroker)
+                    else if (characterObject == culture.ArtisanNotary || characterObject == culture.MerchantNotary ||
+                             characterObject == culture.PreacherNotary ||
+                             characterObject == culture.RuralNotableNotary || characterObject == culture.RansomBroker)
                     {
                         randMin = AdultAge;
                         randMax = ageModel.MaxAge;
                         agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
-                    else if (character == culture.MeleeMilitiaTroop || character == culture.RangedMilitiaTroop
-                        || character == culture.MilitiaSpearman || character == culture.MilitiaArcher)
+                    else if (characterObject == culture.MeleeMilitiaTroop ||
+                             characterObject == culture.RangedMilitiaTroop)
                     {
                         randMin = TeenAge;
                         randMax = ageModel.BecomeOldAge;
                         agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
-                    else if (character == culture.MeleeEliteMilitiaTroop || character == culture.RangedEliteMilitiaTroop
-                        || character == culture.MilitiaVeteranSpearman || character == culture.MilitiaVeteranArcher)
+                    else if (characterObject == culture.MeleeEliteMilitiaTroop ||
+                             characterObject == culture.RangedEliteMilitiaTroop)
                     {
                         randMin = AdultAge;
                         randMax = ageModel.BecomeOldAge;
                         agentData.IsFemale(MBRandom.RandomFloat < D225MiscFixesSettingsUtil.Instance.WorkerGenderRatio);
                     }
-                    else if (character == culture.TavernWench || character == culture.FemaleDancer)
+                    else if (characterObject == culture.TavernWench || characterObject == culture.FemaleDancer)
                     {
                         randMin = TweenAge;
                         randMax = ageModel.BecomeOldAge;
                     }
-                    else if (character == culture.Townsman || character == culture.Townswoman || character == culture.Villager || character == culture.VillageWoman)
+                    else if (characterObject == culture.Townsman || characterObject == culture.Townswoman ||
+                             characterObject == culture.Villager || characterObject == culture.VillageWoman)
                     {
                         randMin = TweenAge;
                         randMax = ageModel.MaxAge;
                     }
-                    else if (character == culture.Beggar || character == culture.FemaleBeggar)
+                    else if (characterObject == culture.Beggar || characterObject == culture.FemaleBeggar)
                     {
                         randMin = ChildAge;
                         randMax = ageModel.MaxAge;
                     }
-                    else if (character == culture.TownsmanInfant || character == culture.TownswomanInfant)
+                    else if (characterObject == culture.TownsmanInfant || characterObject == culture.TownswomanInfant)
                     {
                         randMin = InfantAge;
                         randMax = ChildAge;
                     }
-                    else if (character == culture.TownsmanChild || character == culture.TownswomanChild
-                        || character == culture.VillagerMaleChild || character == culture.VillagerFemaleChild)
+                    else if (characterObject == culture.TownsmanChild || characterObject == culture.TownswomanChild ||
+                             characterObject == culture.VillagerMaleChild ||
+                             characterObject == culture.VillagerFemaleChild)
                     {
                         randMin = ChildAge;
                         randMax = TeenAge;
                     }
-                    else if (character == culture.TownsmanTeenager || character == culture.TownswomanTeenager
-                        || character == culture.VillagerMaleTeenager || character == culture.VillagerFemaleTeenager)
+                    else if (characterObject == culture.TownsmanTeenager ||
+                             characterObject == culture.TownswomanTeenager ||
+                             characterObject == culture.VillagerMaleTeenager ||
+                             characterObject == culture.VillagerFemaleTeenager)
                     {
                         randMin = TeenAge;
                         randMax = AdultAge;
@@ -123,21 +130,22 @@ namespace FixedBanditSpawning
         public static bool Prepare()
         {
             if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
-            Debug.Print("[FixedBanditSpawning] Making some children less innocent...");
+            Debug.Print("[FixedBanditSpawning] Replacing hardcoded dialogue checks...");
             return true;
         }
 
         public static void Postfix(ref bool __result)
         {
 
-            BasicCharacterObject character = Campaign.Current.ConversationManager.OneToOneConversationAgent.Character;
-            if (character is CharacterObject)
+            var character = Campaign.Current.ConversationManager.OneToOneConversationAgent.Character;
+            if (character is CharacterObject characterObject)
             {
-                var culture = (character as CharacterObject)?.Culture;
+                var culture = characterObject.Culture;
                 if (culture is null) return;
-                __result = character == culture.TownsmanInfant || character == culture.TownswomanInfant
-                    || character == culture.TownsmanChild || character == culture.TownswomanChild
-                    || character == culture.VillagerMaleChild || character == culture.VillagerFemaleChild;
+                __result = characterObject == culture.TownsmanInfant || characterObject == culture.TownswomanInfant ||
+                           characterObject == culture.TownsmanChild || characterObject == culture.TownswomanChild ||
+                           characterObject == culture.VillagerMaleChild ||
+                           characterObject == culture.VillagerFemaleChild;
             }
         }
     }
@@ -148,14 +156,14 @@ namespace FixedBanditSpawning
         public static bool Prepare()
         {
             if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
-            Debug.Print("[FixedBanditSpawning] Patching hero creation method to allow female notables (on top of existing female templates... who instead can be male)...");
+            Debug.Print("[FixedBanditSpawning] Patching notable spawning...");
             return true;
         }
-
+    
         public static void Postfix(ref Hero __result)
         {
-            AgeModel ageModel = Campaign.Current.Models.AgeModel;
-            int baseAge = Math.Max(ageModel.HeroComesOfAge, LocationCharacterConstructorPatch.TweenAge);
+            var ageModel = Campaign.Current.Models.AgeModel;
+            var baseAge = Math.Max(ageModel.HeroComesOfAge, LocationCharacterConstructorPatch.TeenAge);
             if (__result.IsNotable)
                 __result.SetBirthDay(HeroHelper.GetRandomBirthDayForAge(
                     MathF.Lerp(baseAge, ageModel.MaxAge, (__result.Age - ageModel.HeroComesOfAge) / (ageModel.MaxAge - ageModel.HeroComesOfAge))));

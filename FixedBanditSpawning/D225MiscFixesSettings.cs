@@ -173,7 +173,7 @@ namespace FixedBanditSpawning
         #endregion
 
         #region Wanderer Spawning
-        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, RequireRestart = true)]
+        [SettingPropertyBool(PatchWandererSpawningName, HintText = PatchWandererSpawningHint, IsToggle = true, RequireRestart = false)]
         [SettingPropertyGroup(PatchWandererSpawningName, GroupOrder = 1)]
         public bool PatchWandererSpawning { get; set; } = false;
 
