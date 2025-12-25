@@ -32,7 +32,7 @@ namespace Designer225.MiscFixes
                 agent.SpawnEquipment.GetUnderwearType(agent.IsFemale && agent.Age >= 14),
                 (int)agent.SpawnEquipment.BodyMeshType, (int)agent.SpawnEquipment.HairCoverType,
                 (int)agent.SpawnEquipment.BeardCoverType, (int)agent.SpawnEquipment.BodyDeformType, agent == Agent.Main,
-                agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, agent.Character.Race, false, false);
+                agent.Character.FaceDirtAmount, agent.IsFemale ? 1 : 0, agent.Character.Race, false, false, 0);
         }
         
         [HarmonyPatch(typeof(Agent), nameof(Agent.EquipItemsFromSpawnEquipment))]

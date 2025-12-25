@@ -2,9 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <Version>1.2.0</Version>
         <AssemblyName>Designer225.MiscFixes.$(Version)</AssemblyName>
         <RootNamespace>Designer225.MiscFixes</RootNamespace>
-        <Version>1.1.21.160</Version>
         <Authors>Designer225</Authors>
         <Copyright>Copyright © Designer225 2025</Copyright>
         <PackageProjectUrl>https://github.com/Designer225/FixedBanditSpawning</PackageProjectUrl>
@@ -20,5 +20,9 @@
     <ItemGroup>
       <ProjectReference Include="..\Designer225.MiscFixes\Designer225.MiscFixes.csproj" />
     </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="xcopy $(OutDir)*.dll &quot;$(SolutionDir)bin\Win64_Shipping_Client\&quot; /s /y&#xA;xcopy $(OutDir)*.pdb &quot;$(SolutionDir)bin\Win64_Shipping_Client\&quot; /s /y&#xA;xcopy $(OutDir)*.dll &quot;$(SolutionDir)bin\Gaming.Desktop.x64_Shipping_Client\&quot; /s /y&#xA;xcopy $(OutDir)*.pdb &quot;$(SolutionDir)bin\Gaming.Desktop.x64_Shipping_Client\&quot; /s /y" />
+    </Target>
 
 </Project>

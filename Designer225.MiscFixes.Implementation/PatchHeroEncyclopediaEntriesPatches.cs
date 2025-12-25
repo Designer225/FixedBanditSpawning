@@ -51,7 +51,14 @@ namespace Designer225.MiscFixes
                     CodeMatch.Calls(AccessTools.Method(typeof(FaceGen), nameof(FaceGen.GetMaturityTypeWithAge))),
                     CodeMatch.LoadsConstant(1));
                 if (codeMatcher.IsValid)
-                    codeMatcher.Advance().RemoveInstruction().InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_0));
+                {
+                    codeMatcher.Advance();
+                    var labels = codeMatcher.Labels;
+                    // var blocks = codeMatcher.Blocks;
+                    codeMatcher.RemoveInstruction()
+                        .InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_0).WithLabels(labels));
+                }
+
                 return codeMatcher.InstructionEnumeration();
             }
         }
@@ -63,7 +70,7 @@ namespace Designer225.MiscFixes
             {
                 return Settings.Instance!.PatchHeroEncyclopediaEntries;
             }
-    
+        
             // ReSharper disable once InconsistentNaming
             public static void Postfix(ClanLordItemVM __instance)
             {

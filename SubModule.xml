@@ -1,7 +1,7 @@
 <Module>
   <Name value="Designer225's Miscellaneous Fixes"/>
   <Id value="FixedBanditSpawning"/>
-  <Version value="v1.1.21.160"/>
+  <Version value="v1.2.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <Official value="false"/>
@@ -14,9 +14,9 @@
   </DependedModules>
   <SubModules>
     <SubModule>
-      <Name value="FixedBanditSpawning"/>
-      <DLLName value="FixedBanditSpawning.dll"/>
-      <SubModuleClassType value="FixedBanditSpawning.SubModule"/>
+      <Name value="Designer225.MiscFixes"/>
+      <DLLName value="Designer225.MiscFixes.dll"/>
+      <SubModuleClassType value="Designer225.MiscFixes.SubModule"/>
       <Tags>
         <Tag key="DedicatedServerType" value="none" />
         <Tag key="IsNoRenderModeElement" value="false" />
