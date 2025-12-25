@@ -13,7 +13,7 @@ using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade.View.Tableaus;
 using TaleWorlds.MountAndBlade.GauntletUI.Mission;
 
-namespace FixedBanditSpawning
+namespace Designer225.MiscFixes
 {
     public class SubModule : MBSubModuleBase
     {
@@ -78,10 +78,10 @@ namespace FixedBanditSpawning
     //     {
     //         if (D225MiscFixesSettingsUtil.Instance.PatchBanditSpawning)
     //         {
-    //             Debug.Print("[FixedBanditSpawning] Will patch bandit spawning in MobileParty.FillPartyStack()");
+    //             Debug.Print("[Designer225.MiscFixes] Will patch bandit spawning in MobileParty.FillPartyStack()");
     //             return true;
     //         }
-    //         Debug.Print("[FixedBanditSpawning] Will NOT patch bandit spawning in MobileParty.FillPartyStack()");
+    //         Debug.Print("[Designer225.MiscFixes] Will NOT patch bandit spawning in MobileParty.FillPartyStack()");
     //         return false;
     //     }
     //     
@@ -123,7 +123,7 @@ namespace FixedBanditSpawning
         {
             if (D225MiscFixesSettingsUtil.Instance.PatchAgentSpawning)
                 return true;
-            Debug.Print("[FixedBanditSpawning] Will NOT attempt tp bypass age checker in Mission.SpawnAgent()");
+            Debug.Print("[Designer225.MiscFixes] Will NOT attempt tp bypass age checker in Mission.SpawnAgent()");
             return false;
         }
 
@@ -146,7 +146,7 @@ namespace FixedBanditSpawning
         {
             if (D225MiscFixesSettingsUtil.Instance.PatchInvincibleChildren)
             {
-                Debug.Print("[FixedBanditSpawning] Will patch invincible children");
+                Debug.Print("[Designer225.MiscFixes] Will patch invincible children");
                 return true;
             }
             return false;
@@ -166,7 +166,7 @@ namespace FixedBanditSpawning
         {
             if (D225MiscFixesSettingsUtil.Instance.PatchSavePreviewGenderBug)
             {
-                Debug.Print("[FixedBanditSpawning] Preparing to patch incorrect save preview stuff");
+                Debug.Print("[Designer225.MiscFixes] Preparing to patch incorrect save preview stuff");
                 return true;
             }
             return false;
@@ -198,7 +198,7 @@ namespace FixedBanditSpawning
             {
                 _getShouldArrowsBeVisibleMethod = AccessTools.Method(typeof(MissionGauntletCrosshair), "GetShouldArrowsBeVisible");
                 if (_getShouldArrowsBeVisibleMethod is null) return false;
-                Debug.Print("[FixedBanditSpawning] Fixing crossbow crosshairs");
+                Debug.Print("[Designer225.MiscFixes] Fixing crossbow crosshairs");
                 return true;
             }
             return false;

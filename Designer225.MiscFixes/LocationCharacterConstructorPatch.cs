@@ -7,7 +7,7 @@ using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
-namespace FixedBanditSpawning
+namespace Designer225.MiscFixes
 {
     [HarmonyPatch(typeof(LocationCharacter), MethodType.Constructor, typeof(AgentData),
         typeof(LocationCharacter.AddBehaviorsDelegate), typeof(string), typeof(bool),
@@ -22,7 +22,7 @@ namespace FixedBanditSpawning
         public static bool Prepare()
         {
             if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
-            Debug.Print("[FixedBanditSpawning] Adding a little bit variety to towns and villages...");
+            Debug.Print("[Designer225.MiscFixes] Adding a little bit variety to towns and villages...");
             return true;
         }
 
@@ -119,7 +119,7 @@ namespace FixedBanditSpawning
             }
             catch (Exception e)
             {
-                Debug.Print($"[FixedBanditSpawning] Error attempting to modify location character agent data.\n{e}");
+                Debug.Print($"[Designer225.MiscFixes] Error attempting to modify location character agent data.\n{e}");
             }
         }
     }
@@ -130,7 +130,7 @@ namespace FixedBanditSpawning
         public static bool Prepare()
         {
             if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
-            Debug.Print("[FixedBanditSpawning] Replacing hardcoded dialogue checks...");
+            Debug.Print("[Designer225.MiscFixes] Replacing hardcoded dialogue checks...");
             return true;
         }
 
@@ -156,7 +156,7 @@ namespace FixedBanditSpawning
         public static bool Prepare()
         {
             if (!D225MiscFixesSettingsUtil.Instance.TownAndVillageVariety) return false;
-            Debug.Print("[FixedBanditSpawning] Patching notable spawning...");
+            Debug.Print("[Designer225.MiscFixes] Patching notable spawning...");
             return true;
         }
     

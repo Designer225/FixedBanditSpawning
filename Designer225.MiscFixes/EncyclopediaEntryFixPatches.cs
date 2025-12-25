@@ -10,7 +10,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.MountAndBlade.GauntletUI.TextureProviders.ImageIdentifiers;
 
-namespace FixedBanditSpawning
+namespace Designer225.MiscFixes
 {
     [HarmonyPatch]
     public static class FaceGenGetMaturityTypeWithAgePatches

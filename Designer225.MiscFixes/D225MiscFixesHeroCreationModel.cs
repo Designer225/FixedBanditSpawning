@@ -7,7 +7,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace FixedBanditSpawning
+namespace Designer225.MiscFixes
 {
     public class D225MiscFixesHeroCreationModel : HeroCreationModel
     {

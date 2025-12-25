@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using TaleWorlds.Library;
 
-namespace FixedBanditSpawning
+namespace Designer225.MiscFixes
 {
     static class D225MiscFixesSettingsUtil
     {
@@ -33,7 +33,7 @@ namespace FixedBanditSpawning
                     if (ExceptionCount < 100) // again, don't want to throw too many exceptions
                     {
                         ExceptionCount++;
-                        Debug.Print(string.Format("[FixedBanditSpawning] Failed to obtain MCM config, defaulting to config file.",
+                        Debug.Print(string.Format("[Designer225.MiscFixes] Failed to obtain MCM config, defaulting to config file.",
                             ConfigFile.FullName, e.Message, e.StackTrace));
                     }
                 }
@@ -51,7 +51,7 @@ namespace FixedBanditSpawning
                         }
                         catch (Exception e)
                         {
-                            Debug.Print(string.Format("[FixedBanditSpawning] Failed to load file {0}\n\nError: {1}\n\n{2}",
+                            Debug.Print(string.Format("[Designer225.MiscFixes] Failed to load file {0}\n\nError: {1}\n\n{2}",
                                 ConfigFile.FullName, e.Message, e.StackTrace));
                         }
                     }

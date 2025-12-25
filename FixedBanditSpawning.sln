@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixedBanditSpawning", "FixedBanditSpawning\FixedBanditSpawning.csproj", "{04689F95-E972-42D4-ABB6-FDAA38EE554F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Designer225.MiscFixes", "Designer225.MiscFixes\Designer225.MiscFixes.csproj", "{04689F95-E972-42D4-ABB6-FDAA38EE554F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿using TaleWorlds.Localization;
 
-namespace FixedBanditSpawning
+namespace Designer225.MiscFixes
 {
     public partial class D225MiscFixesSettings
     {
