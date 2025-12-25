@@ -1,0 +1,31 @@
+﻿using System.Diagnostics;
+using System.IO;
+using ConditionalAssemblyLoader;
+using TaleWorlds.ModuleManager;
+
+namespace Designer225.MiscFixes
+{
+    public sealed class MiscFixesAssemblyLoader : AssemblyLoader<MiscFixesEntryPoint>
+    {
+        public MiscFixesAssemblyLoader()
+        {
+            // var nativeModule = ModuleHelper.GetModuleInfo("Native");
+            // var version = nativeModule.Version;
+
+            var binaryPath = Path.Combine(Path.GetFullPath(ModuleHelper.GetModuleFullPath("FixedBanditSpawning")),
+                "bin", "Win64_Shipping_Client");
+            References.AddRange(new[]
+            {
+                new ConditionalAssemblyReference(() => true, "Designer225.MiscFixes.1.2.0",
+                    Path.Combine(binaryPath, "Designer225.MiscFixes.1.2.0.dll"))
+            });
+            Out = str => Debug.Print(str);
+            Error = str => Debug.Print(str);
+        }
+
+        protected override void OnAssemblyLoaded(MiscFixesEntryPoint value)
+        {
+            
+        }
+    }
+}

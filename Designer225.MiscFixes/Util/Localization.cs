@@ -1,10 +1,11 @@
 ﻿using TaleWorlds.Localization;
 
-namespace Designer225.MiscFixes
+namespace Designer225.MiscFixes.Util
 {
-    public partial class D225MiscFixesSettings
+    public static class Localization
     {
-        private const string ModNameText = "{=D225MiscFixes_ModNameText}Designer225's Miscellaneous Fixes",
+        public const string
+            ModNameText = "{=D225MiscFixes_ModNameText}Designer225's Miscellaneous Fixes",
 
             PatchHeroEncyclopediaEntriesName = "{=D225MiscFixes_PatchHeroEncyclopediaEntriesName}Patch Hero Encyclopedia Entries",
             PatchHeroEncyclopediaEntriesHint = "{=D225MiscFixes_PatchHeroEncyclopediaEntriesHint}Fixes some of TaleWorld's black magic that prevents children under 10 from being rendered in their encyclopedia entries. Also give children over 3 portraits (Baby portraits for 8 year olds? Seriously?). Disable if another mod also does this.",
@@ -29,6 +30,6 @@ namespace Designer225.MiscFixes
             WorkerGenderRatioName = "{=D225MiscFixes_WorkerMaleToFemaleRatioName}Worker Gender Ratio",
             WorkerGenderRatioHint = "{=D225MiscFixes_WorkerMaleToFemaleRatioHint}Affects the ratio of workers (not just any generic townsfolk and villagers) in towns and villages that are female instead of being male. Default is 30%. Game default is 0%. Does not require restart unlike other options.";
 
-        private static readonly TextObject ModNameTextObject = new TextObject(ModNameText);
+        public static readonly TextObject ModNameTextObject = new TextObject(ModNameText);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Designer225.MiscFixes.Util;
 using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
@@ -20,7 +21,8 @@ namespace Designer225.MiscFixes
         {
             if (!createAlive || age == -1 || age == 0 || character.Occupation != Occupation.Wanderer)
                 return _baseModel.GetBirthAndDeathDay(character, createAlive, age);
-            age = Campaign.Current.Models.AgeModel.HeroComesOfAge + MBRandom.RandomInt(D225MiscFixesSettingsUtil.Instance.WanderSpawningRngMax);
+            age = Campaign.Current.Models.AgeModel.HeroComesOfAge +
+                  MBRandom.RandomInt(Settings.Instance!.WanderSpawningRngMax);
             return (HeroHelper.GetRandomBirthDayForAge(age), CampaignTime.Never);
         }
 

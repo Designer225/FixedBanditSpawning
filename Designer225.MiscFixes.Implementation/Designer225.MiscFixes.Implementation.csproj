@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>Designer225.MiscFixes.$(Version)</AssemblyName>
+        <RootNamespace>Designer225.MiscFixes</RootNamespace>
+        <Version>1.1.21.160</Version>
+        <Authors>Designer225</Authors>
+        <Copyright>Copyright © Designer225 2025</Copyright>
+        <PackageProjectUrl>https://github.com/Designer225/FixedBanditSpawning</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Designer225/FixedBanditSpawning</RepositoryUrl>
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Designer225.MiscFixes\Designer225.MiscFixes.csproj" />
+    </ItemGroup>
+
+</Project>
