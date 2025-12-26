@@ -5,7 +5,7 @@
         <AssemblyTitle>FixedBanditSpawning</AssemblyTitle>
         <Product>FixedBanditSpawning</Product>
         <Copyright>Copyright © Designer225 2023</Copyright>
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
         <Nullable>enable</Nullable>
         <Authors>Designer225</Authors>
         <PackageProjectUrl>https://github.com/Designer225/FixedBanditSpawning</PackageProjectUrl>
@@ -22,7 +22,7 @@
             <IncludeAssets>compile</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Bannerlord.ReferenceAssemblies" Version="1.3.13.105726" />
-        <PackageReference Include="ConditionalAssemblyLoader" Version="0.2.1-alpha" />
+        <PackageReference Include="ConditionalAssemblyLoader" Version="0.2.2-alpha" />
         <PackageReference Include="Lib.Harmony" Version="2.4.2" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
