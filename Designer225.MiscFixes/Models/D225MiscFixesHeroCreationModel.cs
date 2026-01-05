@@ -8,7 +8,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace Designer225.MiscFixes
+namespace Designer225.MiscFixes.Models
 {
     public class D225MiscFixesHeroCreationModel : HeroCreationModel
     {

@@ -11,7 +11,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.MountAndBlade.GauntletUI.TextureProviders.ImageIdentifiers;
 
-namespace Designer225.MiscFixes
+namespace Designer225.MiscFixes.Patches
 {
     public static class PatchHeroEncyclopediaEntriesPatches
     {

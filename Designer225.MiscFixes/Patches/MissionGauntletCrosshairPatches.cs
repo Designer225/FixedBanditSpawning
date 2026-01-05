@@ -7,7 +7,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.GauntletUI.Mission;
 
-namespace Designer225.MiscFixes
+namespace Designer225.MiscFixes.Patches
 {
     public class MissionGauntletCrosshairPatches
     {

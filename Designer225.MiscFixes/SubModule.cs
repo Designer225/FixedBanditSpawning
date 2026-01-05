@@ -1,4 +1,11 @@
-﻿using TaleWorlds.Core;
+﻿using System.Linq;
+using Designer225.MiscFixes.Models;
+using Designer225.MiscFixes.Util;
+using HarmonyLib;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
+using TaleWorlds.Core;
+using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 
 namespace Designer225.MiscFixes
@@ -7,28 +14,26 @@ namespace Designer225.MiscFixes
     {
         //internal static Dictionary<Agent, float> AgentAgeDict { get; set; } = new Dictionary<Agent, float>();
         private bool _isLoaded;
-        private readonly MiscFixesEntryPoint _entryPoint;
-
-        public SubModule()
-        {
-            if (!new MiscFixesAssemblyLoader().TryLoad(out var result, out var error))
-                throw error!;
-
-            _entryPoint = result.Instance;
-        }
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             base.OnBeforeInitialModuleScreenSetAsRoot();
             if (_isLoaded) return;
-            _entryPoint.OnBeforeInitialModuleScreenSetAsRoot();
+            new Harmony("d225.fixedbanditspawning").PatchAll();
             _isLoaded = true;
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
             base.OnGameStart(game, gameStarterObject);
-            _entryPoint.OnGameStart(game, gameStarterObject);
+            
+            if (!(game.GameType is Campaign) || !(gameStarterObject is CampaignGameStarter gameStarter))
+                return;
+            
+            // add game models
+            if (Settings.Instance!.PatchWandererSpawning)
+                gameStarter.AddModel(new D225MiscFixesHeroCreationModel(gameStarter.Models
+                    .WhereQ(x => x is HeroCreationModel).Cast<HeroCreationModel>().Last()));
         }
     }
 

@@ -5,7 +5,7 @@ using HarmonyLib;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.View.Tableaus;
 
-namespace Designer225.MiscFixes
+namespace Designer225.MiscFixes.Patches
 {
     public class BasicCharacterTableauPatches
     {

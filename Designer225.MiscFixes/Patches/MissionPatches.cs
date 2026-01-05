@@ -5,7 +5,7 @@ using HarmonyLib;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace Designer225.MiscFixes
+namespace Designer225.MiscFixes.Patches
 {
     public static class MissionPatches
     {

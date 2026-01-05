@@ -8,7 +8,7 @@ using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
-namespace Designer225.MiscFixes
+namespace Designer225.MiscFixes.Patches
 {
     public static class TownAndVillageVarietyPatches
     {
