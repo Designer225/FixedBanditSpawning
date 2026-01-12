@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Reflection;
-using Designer225.MiscFixes.Util;
+using Designer225.MiscFixes.Implementation.Util;
 using HarmonyLib;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.GauntletUI.Mission;
 
-namespace Designer225.MiscFixes.Patches
+namespace Designer225.MiscFixes.Implementation.Patches
 {
     public class MissionGauntletCrosshairPatches
     {

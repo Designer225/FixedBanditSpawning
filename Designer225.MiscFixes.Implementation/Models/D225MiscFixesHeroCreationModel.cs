@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Designer225.MiscFixes.Util;
+using Designer225.MiscFixes.Implementation.Util;
 using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
@@ -8,7 +8,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace Designer225.MiscFixes.Models
+namespace Designer225.MiscFixes.Implementation.Models
 {
     public class D225MiscFixesHeroCreationModel : HeroCreationModel
     {

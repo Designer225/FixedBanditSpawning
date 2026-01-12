@@ -1,6 +1,6 @@
 ﻿using TaleWorlds.Localization;
 
-namespace Designer225.MiscFixes.Util
+namespace Designer225.MiscFixes.Implementation.Util
 {
     public static class Localization
     {

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
-using Designer225.MiscFixes.Util;
+using Designer225.MiscFixes.Implementation.Util;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
@@ -11,7 +11,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.MountAndBlade.GauntletUI.TextureProviders.ImageIdentifiers;
 
-namespace Designer225.MiscFixes.Patches
+namespace Designer225.MiscFixes.Implementation.Patches
 {
     public static class PatchHeroEncyclopediaEntriesPatches
     {

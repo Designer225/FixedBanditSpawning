@@ -1,10 +1,10 @@
-﻿using Designer225.MiscFixes.Util;
+﻿using Designer225.MiscFixes.Implementation.Util;
 using HarmonyLib;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace Designer225.MiscFixes.Patches
+namespace Designer225.MiscFixes.Implementation.Patches
 {
     public static class AgentPatches
     {

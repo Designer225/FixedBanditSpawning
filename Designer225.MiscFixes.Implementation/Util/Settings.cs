@@ -1,9 +1,9 @@
 ﻿using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Base.Global;
-using static Designer225.MiscFixes.Util.Localization;
+using static Designer225.MiscFixes.Implementation.Util.Localization;
 
-namespace Designer225.MiscFixes.Util
+namespace Designer225.MiscFixes.Implementation.Util
 {
     public sealed class Settings : AttributeGlobalSettings<Settings>
     {

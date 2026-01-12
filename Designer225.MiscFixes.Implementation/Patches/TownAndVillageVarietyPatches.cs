@@ -1,5 +1,5 @@
 ﻿using System;
-using Designer225.MiscFixes.Util;
+using Designer225.MiscFixes.Implementation.Util;
 using HarmonyLib;
 using Helpers;
 using SandBox.CampaignBehaviors;
@@ -8,7 +8,7 @@ using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
-namespace Designer225.MiscFixes.Patches
+namespace Designer225.MiscFixes.Implementation.Patches
 {
     public static class TownAndVillageVarietyPatches
     {
@@ -170,7 +170,8 @@ namespace Designer225.MiscFixes.Patches
                 var baseAge = Math.Max(ageModel.HeroComesOfAge, TeenAge);
                 if (__result.IsNotable)
                     __result.SetBirthDay(HeroHelper.GetRandomBirthDayForAge(
-                        MathF.Lerp(baseAge, ageModel.MaxAge, (__result.Age - ageModel.HeroComesOfAge) / (ageModel.MaxAge - ageModel.HeroComesOfAge))));
+                        TaleWorlds.Library.MathF.Lerp(baseAge, ageModel.MaxAge,
+                            (__result.Age - ageModel.HeroComesOfAge) / (ageModel.MaxAge - ageModel.HeroComesOfAge))));
             }
         }
     }
