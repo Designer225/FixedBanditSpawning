@@ -4,11 +4,11 @@
 		<!-- Can be found in the URL of your workshop item -->
 	</GetItem>
 	<UpdateItem>
-		<ModuleFolder Value="C:\Games\BannerlordModExtras\Export\FixedBanditSpawning"/>
+		<ModuleFolder Value="E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\FixedBanditSpawning"/>
 		<!-- A direct path of your module -->	
-		<ChangeNotes Value="Version 1.2.1:
+		<ChangeNotes Value="Version 1.3.0:
 [list]
-[*]Fixed a crash triggered due to interface assembly mismatch.
+[*]Recompiled using BUTR Bannerlord SDK.
 [/list]" />
 		<!-- Insert patch notes -->
 		<Tags> 
