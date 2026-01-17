@@ -12,56 +12,54 @@ namespace Designer225.MiscFixes.Implementation.Models
 {
     public class D225MiscFixesHeroCreationModel : HeroCreationModel
     {
-        private readonly HeroCreationModel _baseModel;
-        
-        public D225MiscFixesHeroCreationModel(HeroCreationModel baseModel) => _baseModel = baseModel;
+        public D225MiscFixesHeroCreationModel(HeroCreationModel baseModel) => Initialize(baseModel);
         
         public override (CampaignTime, CampaignTime) GetBirthAndDeathDay(CharacterObject character, bool createAlive,
             int age)
         {
             if (!createAlive || age == -1 || age == 0 || character.Occupation != Occupation.Wanderer)
-                return _baseModel.GetBirthAndDeathDay(character, createAlive, age);
+                return BaseModel.GetBirthAndDeathDay(character, createAlive, age);
             age = Campaign.Current.Models.AgeModel.HeroComesOfAge +
                   MBRandom.RandomInt(Settings.Instance!.WanderSpawningRngMax);
             return (HeroHelper.GetRandomBirthDayForAge(age), CampaignTime.Never);
         }
 
-        public override Settlement GetBornSettlement(Hero character) => _baseModel.GetBornSettlement(character);
+        public override Settlement GetBornSettlement(Hero character) => BaseModel.GetBornSettlement(character);
 
         public override StaticBodyProperties GetStaticBodyProperties(Hero character, bool isOffspring,
             float variationAmount = 0.35f) =>
-            _baseModel.GetStaticBodyProperties(character, isOffspring, variationAmount);
+            BaseModel.GetStaticBodyProperties(character, isOffspring, variationAmount);
 
         public override FormationClass GetPreferredUpgradeFormation(Hero character) =>
-            _baseModel.GetPreferredUpgradeFormation(character);
+            BaseModel.GetPreferredUpgradeFormation(character);
 
-        public override Clan GetClan(Hero character) => _baseModel.GetClan(character);
+        public override Clan GetClan(Hero character) => BaseModel.GetClan(character);
 
         public override CultureObject GetCulture(Hero hero, Settlement bornSettlement, Clan clan) =>
-            _baseModel.GetCulture(hero, bornSettlement, clan);
+            BaseModel.GetCulture(hero, bornSettlement, clan);
 
         public override CharacterObject GetRandomTemplateByOccupation(Occupation occupation,
-            Settlement? settlement = null) => _baseModel.GetRandomTemplateByOccupation(occupation, settlement);
+            Settlement? settlement = null) => BaseModel.GetRandomTemplateByOccupation(occupation, settlement);
 
         public override List<(TraitObject trait, int level)> GetTraitsForHero(Hero hero) =>
-            _baseModel.GetTraitsForHero(hero);
+            BaseModel.GetTraitsForHero(hero);
 
-        public override Equipment GetCivilianEquipment(Hero hero) => _baseModel.GetCivilianEquipment(hero);
+        public override Equipment GetCivilianEquipment(Hero hero) => BaseModel.GetCivilianEquipment(hero);
 
-        public override Equipment GetBattleEquipment(Hero hero) => _baseModel.GetBattleEquipment(hero);
+        public override Equipment GetBattleEquipment(Hero hero) => BaseModel.GetBattleEquipment(hero);
 
         public override CharacterObject GetCharacterTemplateForOffspring(Hero mother, Hero father,
-            bool isOffspringFemale) => _baseModel.GetCharacterTemplateForOffspring(mother, father, isOffspringFemale);
+            bool isOffspringFemale) => BaseModel.GetCharacterTemplateForOffspring(mother, father, isOffspringFemale);
 
         public override (TextObject firstName, TextObject name) GenerateFirstAndFullName(Hero hero) =>
-            _baseModel.GenerateFirstAndFullName(hero);
+            BaseModel.GenerateFirstAndFullName(hero);
 
         public override List<(SkillObject, int)> GetDefaultSkillsForHero(Hero hero) =>
-            _baseModel.GetDefaultSkillsForHero(hero);
+            BaseModel.GetDefaultSkillsForHero(hero);
 
         public override List<(SkillObject, int)> GetInheritedSkillsForHero(Hero hero) =>
-            _baseModel.GetInheritedSkillsForHero(hero);
+            BaseModel.GetInheritedSkillsForHero(hero);
 
-        public override bool IsHeroCombatant(Hero hero) => _baseModel.IsHeroCombatant(hero);
+        public override bool IsHeroCombatant(Hero hero) => BaseModel.IsHeroCombatant(hero);
     }
 }

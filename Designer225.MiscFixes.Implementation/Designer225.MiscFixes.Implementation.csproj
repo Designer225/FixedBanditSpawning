@@ -15,6 +15,7 @@
         <ModuleName>Designer225's Miscellaneous Fixes</ModuleName>
         <ModuleUrl></ModuleUrl>
         <GameFolder>$(BANNERLORD_GAME_DIR)</GameFolder>
+        <ExtendedBuild>true</ExtendedBuild>
         <!-- Module manually override GameVersion -->
         <!-- <OverrideGameVersion>v1.0.0</OverrideGameVersion> -->
     </PropertyGroup>
